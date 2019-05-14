@@ -17,6 +17,9 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    // 권한 체크를 위한 객체
+    PermissionCheck permission;
+
 
     // 녹음 시작/정지/재생 버튼
     Button startButton;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // permission 객체 생성;
+        permission = new PermissionCheck(MainActivity.this);
 
 
         file = new File(getFilesDir(), "test_record");
@@ -64,43 +70,45 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                // recorder가 null이 아니면, recorder를 비운다.
-                if(recorder != null) {
-                    recorder.stop();
-                    recorder.release();
-                    recorder = null;
+                boolean isRecordChecked = permission.isChecked("Record");
+
+                if(isRecordChecked) {
+                    // recorder가 null이 아니면, recorder를 비운다.
+                    if(recorder != null) {
+                        recorder.stop();
+                        recorder.release();
+                        recorder = null;
+                    }
+
+
+
+                    // recorder 객체 생성
+                    recorder = new MediaRecorder();
+                    Log.i("MediaRecorder 객체: ", recorder.toString());
+
+
+
+                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC); // 마이크를 통해 음성을 받는다.
+                    recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP); // 파일 타입 설정
+                    recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); // 코덱 설정
+
+
+
+
+                    recorder.setOutputFile(file.getAbsolutePath()); // 저장될 파일 위치 지정
+                    //recorder.setOutputFile(RECORD_FILE);
+
+
+
+                    try {
+                        Toast.makeText(getApplicationContext(), "녹음을 시작합니다.", Toast.LENGTH_LONG).show();
+
+                        recorder.prepare();
+                        recorder.start();
+                    } catch (Exception e) {
+                        Log.e("SampleAudioRecorder", "Exception: ", e);
+                    }
                 }
-
-
-
-                // recorder 객체 생성
-                recorder = new MediaRecorder();
-                Log.i("MediaRecorder 객체: ", recorder.toString());
-
-
-
-                recorder.setAudioSource(MediaRecorder.AudioSource.MIC); // 마이크를 통해 음성을 받는다.
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP); // 파일 타입 설정
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); // 코덱 설정
-
-
-
-
-                recorder.setOutputFile(file.getAbsolutePath()); // 저장될 파일 위치 지정
-                //recorder.setOutputFile(RECORD_FILE);
-
-
-
-                try {
-                    Toast.makeText(getApplicationContext(), "녹음을 시작합니다.", Toast.LENGTH_LONG).show();
-
-                    recorder.prepare();
-                    recorder.start();
-                } catch (Exception e) {
-                    Log.e("SampleAudioRecorder", "Exception: ", e);
-                }
-
-
 
             }
         });
@@ -151,9 +159,6 @@ public class MainActivity extends AppCompatActivity {
             player = null;
         }
     }
-
-
-
 
 
 }
