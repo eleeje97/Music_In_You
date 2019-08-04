@@ -85,6 +85,7 @@
                     android:layout_gravity="right"
                     android:text="search" />
             </LinearLayout>
+
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"

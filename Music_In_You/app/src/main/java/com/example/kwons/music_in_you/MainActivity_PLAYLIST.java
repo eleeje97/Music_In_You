@@ -24,6 +24,11 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
     public static ArrayList<MusicDTO> list ;
     //private Intent state_intent;
     //Boolean flag;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
