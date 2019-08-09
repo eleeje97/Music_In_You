@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import com.example.kwons.music_in_you.MusicDTO;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class MusicPlayActivity extends AppCompatActivity implements View.OnClickListener {
 

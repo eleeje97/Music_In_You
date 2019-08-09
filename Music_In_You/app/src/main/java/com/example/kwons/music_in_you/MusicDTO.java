@@ -44,8 +44,6 @@ public class MusicDTO implements Serializable {
         return title;
     }
 
-
-
     public void setTitle(String title) {
         this.title = title;
     }

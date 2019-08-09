@@ -19,22 +19,16 @@ import java.util.ArrayList;
 
 public class TabFragment_playlist extends Fragment  {
 
-    MusicPlayActivity musicPlayActivity_activity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
+    //MusicPlayActivity musicPlayActivity_activity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
     private Button search; // 검색을 위한 버튼
     private ListView listView ; // MP3 목록을 나타낼 리스트뷰
     public static ArrayList<MusicDTO> list ;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
 
         View view = inflater.inflate(R.layout.tab_playlist,container,false);
-        //return inflater.inflate(R.layout.tab_playlist, container, false);
 
         listView = view.findViewById(R.id.listview);
         search = view.findViewById(R.id.search_btn);
