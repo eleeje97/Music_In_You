@@ -36,7 +36,7 @@ public class DialogActivity extends Activity {
 
         position = intent.getExtras().getInt("position");
 
-        list = MainActivity_PLAYLIST.mainActivity_playlist.getList(); // 음악 리스트 목록을 불러옴
+        list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 목록을 불러옴
         play.setOnClickListener(new View.OnClickListener(){
 
             @Override

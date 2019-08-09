@@ -39,8 +39,7 @@ public class Search_MusicActivity extends AppCompatActivity {
         list = new ArrayList<MusicDTO>();
 
         // 원본 데이터
-
-        list = MainActivity_PLAYLIST.mainActivity_playlist.getList();
+        list = MainActivity.mainActivity.getMusicList();
 
         searach_list = new ArrayList<MusicDTO>();
         searach_list.addAll(list); // 원본을 복사함

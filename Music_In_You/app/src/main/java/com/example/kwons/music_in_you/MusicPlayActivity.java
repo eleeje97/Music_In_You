@@ -157,6 +157,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //intent.putExtra("isRandomed",isRandomed);
+                intent.putExtra("position", 1);
                 startActivity(intent);
 
             }});

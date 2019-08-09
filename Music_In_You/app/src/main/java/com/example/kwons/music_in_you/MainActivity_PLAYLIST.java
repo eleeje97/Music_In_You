@@ -24,7 +24,7 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
 
     private Button sort_btn; // 정렬 버튼
     private ListView listView ; // MP3 목록을 나타낼 리스트뷰
-    public static ArrayList<MusicDTO> list ;
+    public static ArrayList<MusicDTO> list;
     //private Intent state_intent;
     //Boolean flag;
     private  MyAdapter adapter;

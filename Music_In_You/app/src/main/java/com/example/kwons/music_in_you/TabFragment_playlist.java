@@ -16,29 +16,69 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TabFragment_playlist extends Fragment  {
 
-    //MusicPlayActivity musicPlayActivity_activity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
-    private ListView listView ; // MP3 목록을 나타낼 리스트뷰
-    public static ArrayList<MusicDTO> list ;
+    MusicPlayActivity musicPlayActivity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
 
+    private Button sort_btn; // 정렬 버튼
+    private ListView listView ; // MP3 목록을 나타낼 리스트뷰
+    public static ArrayList<MusicDTO> list;
+    private  MyAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
 
         View view = inflater.inflate(R.layout.tab_playlist,container,false);
 
+        list = MainActivity.mainActivity.getMusicList();
+
         listView = view.findViewById(R.id.listview);
+        sort_btn = view.findViewById(R.id.sort_btn);
+        adapter = new MyAdapter(getActivity(), list);
+
+        listView.setAdapter(adapter);
 
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-        //MyAdapter adapter = new MyAdapter(getActivity(),list);
+                // 현재 음악이 재생되고 있다면 종료함
+                Intent intent = new Intent(getContext(), MusicPlayActivity.class); // 현재 선택된 곡을 재생
+                if(musicPlayActivity != null){
 
+                    musicPlayActivity.finish();} // 현재 실행되는 액티비티가 있다면 종료하고
+
+                intent.putExtra("position", position);
+                intent.putExtra("playlist", list);
+
+                startActivity(intent);
+            }
+        });
+
+
+        // 정렬버튼이 눌리면
+        sort_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(list); // 정렬하도록 함
+                listView.setAdapter(adapter);
+                for(MusicDTO musicDTO : list) { System.out.println(musicDTO.getTitle()); }
+
+
+            }
+        });
 
         return view;
     }
+
+
+
+
+
 }
 
 
