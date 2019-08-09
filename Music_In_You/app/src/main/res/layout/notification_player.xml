@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    android:background="#85030303"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -9,8 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
-        android:scaleType="fitXY"
-        />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/txt_title"
@@ -20,33 +20,38 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="Sample Title"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 
-    <ImageButton
-        android:id="@+id/btn_rewind"
+    <ImageView
+        android:id="@+id/pre"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/pre_btb"/>
 
-    <ImageButton
-        android:id="@+id/btn_play_pause"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/pre_btb" />
+
+
+    <Button
+        android:id="@+id/play"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/play_btn"/>
+        android:background="@drawable/pause_btn" />
 
-    <ImageButton
-        android:id="@+id/btn_forward"
+    <Button
+        android:id="@+id/pause"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/signup_next_btn"/>
-
-    <ImageButton
-        android:id="@+id/btn_close"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/play_btn" />
+    <ImageView
+        android:id="@+id/next"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/full_heart"/>
+
+
+
+        android:layout_marginRight="10dp"
+        android:src="@drawable/next_btn" />
 </LinearLayout>

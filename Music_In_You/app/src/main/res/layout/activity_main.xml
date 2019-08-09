@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:background="@drawable/background"
-    tools:context="com.example.kwons.music_in_you.HomeActivity">
+    tools:context="com.example.kwons.music_in_you.MainActivity">
 
         <ImageView
             android:layout_marginVertical="15dp"
@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_layout"/>
+
 
 
 </LinearLayout>

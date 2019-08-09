@@ -1,47 +1,40 @@
 package com.example.kwons.music_in_you;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout playlist;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        playlist = findViewById(R.id.playlist);
+        setContentView(R.layout.activity_main);
 
 
+        // 세개의 탭을 만든다
+        final TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("HOME"));
+        tabLayout.addTab(tabLayout.newTab().setText("PLAYLIST"));
+        tabLayout.addTab(tabLayout.newTab().setText("SETTING"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
+        // 각 탭의 내용을 보여주 view pager
+        final ViewPager viewPager = findViewById(R.id.pager);
+        // 탭과 프레그먼트를 연결해주는 PageAdapter
+        final PagerAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
-        TabLayout tabLayout = findViewById(R.id.tabs) ;
+        viewPager.setAdapter(pageAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int pos = tab.getPosition() ;
-                changeView(pos) ;
+                viewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -53,35 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-
-        }) ;
-
+        });
     }
-
-    private void changeView(int index) {
-        TextView textView1 = (TextView) findViewById(R.id.home) ;
-        // playlist
-        TextView textView3 = (TextView) findViewById(R.id.setting) ;
-
-        switch (index) {
-            case 0 :
-                textView1.setVisibility(View.VISIBLE) ;
-                playlist.setVisibility(View.GONE) ;
-                textView3.setVisibility(View.GONE) ;
-                break ;
-            case 1 :
-                textView1.setVisibility(View.GONE) ;
-                playlist.setVisibility(View.VISIBLE) ;
-                textView3.setVisibility(View.GONE) ;
-                break ;
-            case 2 :
-                textView1.setVisibility(View.GONE) ;
-                playlist.setVisibility(View.GONE) ;
-                textView3.setVisibility(View.VISIBLE) ;
-                break ;
-
-        }
-    }
-
 
 }
