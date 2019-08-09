@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -30,6 +32,7 @@ public class MyAdapter extends BaseAdapter {
     List<MusicDTO> list;
     LayoutInflater inflater;
     Activity activity;
+
 
     public MyAdapter() {
     }
@@ -64,11 +67,13 @@ public class MyAdapter extends BaseAdapter {
 
         }
 
+
         ImageView imageView = (ImageView) convertView.findViewById(R.id.album);
 
 
         Bitmap albumImage = getAlbumImage(activity, Integer.parseInt((list.get(position)).getAlbumId()), 170);
-       imageView.setImageBitmap(albumImage);
+
+        imageView.setImageBitmap(albumImage);
 
 
         TextView title = (TextView) convertView.findViewById(R.id.title);
@@ -82,25 +87,21 @@ public class MyAdapter extends BaseAdapter {
         return convertView;
     }
 
+    // 비트맵 옵션을 설정하기 위해서 사용함
     private static final BitmapFactory.Options options = new BitmapFactory.Options();
 
+    // 앨범 이미지의 크기를 조절하기 위해서
     private static Bitmap getAlbumImage(Context context, int album_id, int MAX_IMAGE_SIZE) {
-        // NOTE: There is in fact a 1 pixel frame in the ImageView used to
-        // display this drawable. Take it into account now, so we don't have to
-        // scale later.
+
         ContentResolver res = context.getContentResolver();
-        Uri uri = Uri.parse(("content://media/external/audio/media/"+ album_id)); // content://media/external/audio/albumart/
+        Uri uri = Uri.parse(("content://media/external/audio/albumart/"+ album_id)); // 경로"content://media/external/audio/media/"
 
         // URI가 있다면
         if (uri != null) {
-            ParcelFileDescriptor fd = null;
+            ParcelFileDescriptor fd = null; // 열려있는 프로세스를 읽고 쓰고 네트워크 소캣을 열 때 사용하는 객체임
             try {
+
                 fd = res.openFileDescriptor(uri, "r");
-
-
-                // Compute the closest power-of-two scale factor
-                // and pass that to sBitmapOptionsCache.inSampleSize, which will
-                // result in faster decoding and better quality
 
                 //크기를 얻어오기 위한옵션 ,
                 //inJustDecodeBounds값이 true로 설정되면 decoder가 bitmap object에 대해 메모리를 할당하지 않고, 따라서 bitmap을 반환하지도 않는다.
@@ -108,7 +109,9 @@ public class MyAdapter extends BaseAdapter {
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFileDescriptor(
                         fd.getFileDescriptor(), null, options);
+
                 int scale = 0;
+
                 if (options.outHeight > MAX_IMAGE_SIZE || options.outWidth > MAX_IMAGE_SIZE) {
                     scale = (int) Math.pow(2, (int) Math.round(Math.log(MAX_IMAGE_SIZE / (double) Math.max(options.outHeight, options.outWidth)) / Math.log(0.5)));
                 }
@@ -121,8 +124,10 @@ public class MyAdapter extends BaseAdapter {
                         fd.getFileDescriptor(), null, options);
 
                 if (b != null) {
+
                     // finally rescale to exactly the size we need
                     if (options.outWidth != MAX_IMAGE_SIZE || options.outHeight != MAX_IMAGE_SIZE) {
+
                         Bitmap tmp = Bitmap.createScaledBitmap(b, MAX_IMAGE_SIZE, MAX_IMAGE_SIZE, true);
                         b.recycle();
                         b = tmp;
@@ -130,8 +135,12 @@ public class MyAdapter extends BaseAdapter {
                 }
 
                 return b;
-            } catch (FileNotFoundException e) {
-            } finally {
+            }
+            catch (FileNotFoundException e) {
+                //Log.e("이미지 에러","출력못함");
+                //Log.e("이미지에러 메세지 : ",e.getMessage());
+            }
+            finally {
                 try {
                     if (fd != null)
                         fd.close();

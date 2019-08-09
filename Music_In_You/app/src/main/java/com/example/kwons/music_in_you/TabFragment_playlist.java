@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class TabFragment_playlist extends Fragment  {
 
     //MusicPlayActivity musicPlayActivity_activity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
-    private Button search; // 검색을 위한 버튼
     private ListView listView ; // MP3 목록을 나타낼 리스트뷰
     public static ArrayList<MusicDTO> list ;
 
@@ -31,7 +30,8 @@ public class TabFragment_playlist extends Fragment  {
         View view = inflater.inflate(R.layout.tab_playlist,container,false);
 
         listView = view.findViewById(R.id.listview);
-        search = view.findViewById(R.id.search_btn);
+
+
 
 
         //MyAdapter adapter = new MyAdapter(getActivity(),list);

@@ -14,17 +14,20 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class MainActivity_PLAYLIST extends AppCompatActivity {
 
     static MainActivity_PLAYLIST mainActivity_playlist;
     MusicPlayActivity musicPlayActivity_activity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
-    private Button search; // 검색을 위한 버튼
+
+    private Button sort_btn; // 정렬 버튼
     private ListView listView ; // MP3 목록을 나타낼 리스트뷰
     public static ArrayList<MusicDTO> list ;
     //private Intent state_intent;
     //Boolean flag;
-
+    private  MyAdapter adapter;
 
 
 
@@ -37,12 +40,12 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
 
         getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만듦
         listView = (ListView)findViewById(R.id.listview);
-        search = (Button)findViewById(R.id.search_btn);
 
-        //state_intent = getIntent();
-        //final Boolean random_state = state_intent.getExtras().getBoolean("isRandomed");
 
-        MyAdapter adapter = new MyAdapter(this,list);
+        // 정렬 버튼 구현
+        sort_btn = findViewById(R.id.sort_btn);
+
+        adapter = new MyAdapter(this,list);
 
         listView.setAdapter(adapter);
 
@@ -65,14 +68,19 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
             }
         });
 
-        search.setOnClickListener(new View.OnClickListener() {
+
+        // 정렬버튼이 눌리면
+        sort_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent serarch_intent = new Intent(MainActivity_PLAYLIST.this,Search_MusicActivity.class);
-                startActivity(serarch_intent);
-                Toast.makeText(getApplicationContext(),"search버튼 눌림",Toast.LENGTH_SHORT).show();
+                Collections.sort(list); // 정렬하도록 함
+                listView.setAdapter(adapter);
+                for(MusicDTO musicDTO : list) { System.out.println(musicDTO.getTitle()); }
+
+
             }
         });
+
     }
 
     public static ArrayList<MusicDTO> getList() {
@@ -110,7 +118,7 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
             musicDTO.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
             musicDTO.setData(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
             musicDTO.setDuration(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
-            Log.e("리스트 목록", musicDTO.getTitle());
+            //Log.e("리스트 목록", musicDTO.getTitle());
             list.add(musicDTO);
         }
         cursor.close();

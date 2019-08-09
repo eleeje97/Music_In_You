@@ -183,7 +183,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:src="@drawable/signup_next_btn" />
+                android:src="@drawable/next_btn" />
 
             <ToggleButton
                 android:id="@+id/random"

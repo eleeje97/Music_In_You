@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainActivity_PLAYLIST"
             >
 
 
@@ -34,7 +34,7 @@
         <activity android:name=".MusicPlayActivity"></activity>
         <activity android:name=".Search_MusicActivity"></activity>
         <activity android:name=".DialogActivity" android:theme="@style/Theme.AppCompat.Dialog"> </activity>
-        <activity android:name=".MainActivity_PLAYLIST"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

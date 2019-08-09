@@ -1,9 +1,11 @@
 package com.example.kwons.music_in_you;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 // 조회한 음악파일의 정보를 담을 클래스
-public class MusicDTO implements Serializable {
+public class MusicDTO implements Serializable , Comparable<MusicDTO> {
     private String id;
     private String albumId;
     private String title;
@@ -78,5 +80,12 @@ public class MusicDTO implements Serializable {
                 ", duration='" + duration + '\'' +
                 ", data='" + data + '\'' +
                 '}';
+    }
+
+
+    // 정렬을 위한 메소드
+    @Override
+    public int compareTo(@NonNull MusicDTO o) {
+        return this.title.compareTo(o.title);
     }
 }

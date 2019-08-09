@@ -43,14 +43,10 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="2"
                 android:hint="검색어를 입력하세요"
+
                 android:textColor="@android:color/background_light"
                 android:textColorHint="#dad9d9" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-
-                android:src="@drawable/full_heart" />
         </LinearLayout>
 
 
