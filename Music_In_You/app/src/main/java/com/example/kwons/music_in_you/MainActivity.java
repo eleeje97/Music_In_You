@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -23,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private Button search; // 검색을 위한 버튼
     LinearLayout musicplayer;
 
+
+    // miniplayer 변수 선언
+    private ImageView album,previous,next;
+    private Button play,pause;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("SETTING"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        // miniplayer 변수 생성
+        album = findViewById(R.id.mini_album);
+        previous = findViewById(R.id.mini_pre);
+        next = findViewById(R.id.mini_next);
+        play = findViewById(R.id.mini_play);
+        pause = findViewById(R.id.mini_pause);
 
         // 검색 버튼
         search = findViewById(R.id.search_btn);
@@ -56,9 +67,15 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener musicplayerListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
-                startActivity(intent);
-
+                // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
+                if(MusicPlayActivity.mediaPlayer !=null) {
+                    Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
+                    intent.putExtra("position",1); // 재생되는 곡의 포지션을 가지고 전달
+                    startActivity(intent);
+                }
+                else{ // 재생중인 음악이 없다면 토스트 메시지로 알림
+                    Toast.makeText(getApplicationContext(),"재생중인 음악이 없습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
@@ -98,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
         viewPager.setCurrentItem(position);
+
+
+        //miniplayer 재생 관련 코드
+
+
+
     }
 
 
@@ -136,5 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
         return list;
     }
+
+
+
 
 }
