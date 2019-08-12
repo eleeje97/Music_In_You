@@ -71,9 +71,8 @@ public class Search_MusicActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //startActivity(new Intent(Search_MusicActivity.this, DialogActivity.class));
+                Log.e("아이디 ",""+id+", 포지션: "+position );
                 Intent intent = new Intent(Search_MusicActivity.this, DialogActivity.class);
-
                 intent.putExtra("position",position);
                 startActivity(intent);
 

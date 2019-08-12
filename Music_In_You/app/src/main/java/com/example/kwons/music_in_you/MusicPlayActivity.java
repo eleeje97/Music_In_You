@@ -47,7 +47,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     // 액티비티 죽이기 위해서 객체 선언
     // 리스트 페이지로 넘어갔을 때 현재 음악 페이지를 죽이기 위해서 만든것임
     public static MusicPlayActivity musicPlayActivity;
-
+    TabFragment_playlist tabFragment_playlist = (TabFragment_playlist)TabFragment_playlist.tabFragment_playlist; // 리스트 액티비티 사용하기 위해 선언
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,17 +276,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
 
 
-   @Override
-    public void onBackPressed(){
-        /*super.onBackPressed();
-        isPlaying = false;
-        Intent intent_music = new Intent(getApplicationContext(),MainActivity_PLAYLIST.class);
-        //intent_music.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 쌓여 있는 액티비티 정리
-        //intent_music.putExtra("isPlaying", isPlaying);
-        startActivity(intent_music);
-    */
-        return;
-    }
+
 
 
 
@@ -434,17 +424,24 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
     }
 }
-    }
-
+    }/*
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isPlaying = false;
-        if(mediaPlayer!=null){
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
+        isPlaying = true;
 
+    }
+*/
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //intent.putExtra("isRandomed",isRandomed);
+        intent.putExtra("position", 1);
+        startActivity(intent);
+
+    }
 }

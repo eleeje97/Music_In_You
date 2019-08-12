@@ -58,7 +58,9 @@ public class MainActivity_PLAYLIST extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity_PLAYLIST.this,MusicPlayActivity.class); // 현재 선택된 곡을 재생
                 if(MusicPlayActivity.musicPlayActivity != null){
 
-                    musicPlayActivity_activity.finish();} // 현재 실행되는 액티비티가 있다면 종료하고
+                    musicPlayActivity_activity.finish();
+
+                    } // 현재 실행되는 액티비티가 있다면 종료하고
 
                 intent.putExtra("position",position);
                 intent.putExtra("playlist",list);

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -42,6 +43,7 @@ public class DialogActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+                Toast.makeText(getApplicationContext(),list.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 Intent intent_music = new Intent(DialogActivity.this , MusicPlayActivity.class);
                 intent_music.putExtra("position", position);
                 intent_music.putExtra("playlist", list);

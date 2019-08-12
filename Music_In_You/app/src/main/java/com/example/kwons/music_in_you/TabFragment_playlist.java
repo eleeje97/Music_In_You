@@ -20,6 +20,7 @@ import java.util.Collections;
 
 public class TabFragment_playlist extends Fragment  {
 
+    static TabFragment_playlist tabFragment_playlist;
     MusicPlayActivity musicPlayActivity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
 
     private Button sort_btn; // 정렬 버튼
@@ -30,6 +31,7 @@ public class TabFragment_playlist extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
 
+        tabFragment_playlist = TabFragment_playlist.this;
         View view = inflater.inflate(R.layout.tab_playlist,container,false);
 
         list = MainActivity.mainActivity.getMusicList();
@@ -38,8 +40,9 @@ public class TabFragment_playlist extends Fragment  {
         sort_btn = view.findViewById(R.id.sort_btn);
         adapter = new MyAdapter(getActivity(), list);
 
-        listView.setAdapter(adapter);
 
+
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -50,10 +53,13 @@ public class TabFragment_playlist extends Fragment  {
                 Intent intent = new Intent(getContext(), MusicPlayActivity.class); // 현재 선택된 곡을 재생
                 if(musicPlayActivity != null){
 
-                    musicPlayActivity.finish();} // 현재 실행되는 액티비티가 있다면 종료하고
+                    musicPlayActivity.finish();
+
+                } // 현재 실행되는 액티비티가 있다면 종료하고
 
                 intent.putExtra("position", position);
                 intent.putExtra("playlist", list);
+
 
                 startActivity(intent);
             }

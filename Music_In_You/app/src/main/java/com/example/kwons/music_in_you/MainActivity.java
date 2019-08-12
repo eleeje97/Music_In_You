@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     static MainActivity mainActivity;
     private Button search; // 검색을 위한 버튼
+    LinearLayout musicplayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        musicplayer = findViewById(R.id.musicplayer);
+        View.OnClickListener musicplayerListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
+                startActivity(intent);
+
+            }
+        };
+
+        musicplayer.setOnClickListener(musicplayerListener);
 
         getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.
 

@@ -1,7 +1,19 @@
 package com.example.kwons.music_in_you;
 
-public class NotificationPlayer {
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 
-    private final static int NOTIFICATION_PLAYER_ID = 0;
+public class NotificationPlayer extends AppCompatActivity {
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.notification_player);
+
+
+    }
 }
