@@ -3,7 +3,6 @@ package com.example.kwons.music_in_you;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,11 +41,7 @@ public class Login extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else { // 이메일 textfield가 포커스를 잃으면
-                    if(checkEmail(email_tf.getText().toString())) {
-                        email_warn.setText("");
-                    } else {
-                        email_warn.setText("이메일 형식으로 입력하세요");
-                    }
+                    checkEmail();
                 }
 
             }
@@ -59,11 +54,7 @@ public class Login extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else { // 비밀번호 textfield가 포커스를 잃으면
-                    if(password_tf.getText().length() == 0) {
-                        password_warn.setText("비밀번호를 입력하세요");
-                    } else {
-                        password_warn.setText("");
-                    }
+                    checkPassword();
                 }
 
             }
@@ -75,10 +66,11 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 사용자 이메일, 비밀번호 체크
+                if(checkEmail() & checkPassword()) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
 
-
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
 
             }
         });
@@ -95,7 +87,6 @@ public class Login extends AppCompatActivity {
     }
 
 
-
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -106,8 +97,29 @@ public class Login extends AppCompatActivity {
                     ")+"
     );
 
-    private boolean checkEmail(String email) {
-        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    private boolean checkEmail() {
+        String email = email_tf.getText().toString();
+        boolean valid = EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+
+        if(valid) {
+            email_warn.setText("");
+            return true;
+        } else {
+            email_warn.setText("이메일 형식으로 입력하세요");
+            return false;
+        }
     }
 
+
+    private boolean checkPassword() {
+        String password = password_tf.getText().toString();
+
+        if(password.length() == 0) {
+            password_warn.setText("비밀번호를 입력하세요");
+            return false;
+        } else {
+            password_warn.setText("");
+            return true;
+        }
+    }
 }

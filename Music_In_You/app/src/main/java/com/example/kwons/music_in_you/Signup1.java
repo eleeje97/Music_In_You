@@ -1,23 +1,18 @@
 package com.example.kwons.music_in_you;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
 public class Signup1 extends AppCompatActivity {
 
-    // 컴포넌트 선언
+    /** 컴포넌트 선언 **/
 
     // 텍스트필드
     EditText email_et;
@@ -33,6 +28,9 @@ public class Signup1 extends AppCompatActivity {
     TextView name_warn;
     TextView birthday_warn;
 
+
+    // DatePickerDialog
+    DatePickerDialog datePickerDialog;
 
     Button next_btn; // 다음 버튼
 
@@ -66,11 +64,7 @@ public class Signup1 extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else { // 이메일 textfield가 포커스를 잃으면
-                    if(checkEmail(email_et.getText().toString())) {
-                        email_warn.setText("");
-                    } else {
-                        email_warn.setText("이메일 형식으로 입력하세요");
-                    }
+                    checkEmail();
                 }
 
             }
@@ -83,11 +77,7 @@ public class Signup1 extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else {
-                    if(password_et.getText().length() == 0) {
-                        password_warn.setText("비밀번호를 입력하세요");
-                    } else {
-                        password_warn.setText("");
-                    }
+                    checkPassword();
                 }
 
             }
@@ -100,11 +90,7 @@ public class Signup1 extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else {
-                    if(!password_check_et.getText().toString().equals(password_et.getText().toString())) {
-                        password_check_warn.setText("비밀번호가 일치하지 않습니다");
-                    } else {
-                        password_check_warn.setText("");
-                    }
+                    checkPassword_check();
                 }
 
             }
@@ -117,64 +103,30 @@ public class Signup1 extends AppCompatActivity {
                 if(hasFocus) {
 
                 } else {
-                    if(name_et.getText().length() == 0) {
-                        name_warn.setText("이름을 입력하세요");
-                    } else {
-                        name_warn.setText("");
-                    }
+                    checkName();
                 }
 
             }
         });
 
 
-        //final DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DatePickerStyle, onDateSetListener, 2019, 6, 31);
-
-
-        // 생년월일 형식대로 입력
-        birthday_et.addTextChangedListener(new TextWatcher() {
+        // DatePickerDialog 생성, 리스너 설정
+        datePickerDialog = new DatePickerDialog(this);
+        datePickerDialog.setDialogListener(new DatePickerDialog.DatePickerDialogListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public void onPositiveClicked(int year, int month, int day) {
+                setDate(year, month, day);
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String text = birthday_et.getText().toString();
-                if(text.length()==4) {
-                    birthday_et.setText(text + ".");
-                    birthday_et.setSelection(birthday_et.length());
-                } else if(text.length()==7) {
-                    birthday_et.setText(text + ".");
-                    birthday_et.setSelection(birthday_et.length());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
 
-        // 생년월일 공백 체크
-        birthday_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        // DatePickerDialog 띄우기
+        birthday_et.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    //datePickerDialog.show();
-
-                } else {
-                    if(birthday_et.getText().length() == 0) {
-                        birthday_warn.setText("생년월일을 입력하세요");
-                    } else {
-                        birthday_warn.setText("");
-                    }
-                }
-
+            public void onClick(View v) {
+                datePickerDialog.show();
             }
         });
-
-
 
 
 
@@ -182,9 +134,13 @@ public class Signup1 extends AppCompatActivity {
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Signup2.class);
-                intent.putExtra("NAME", name_et.getText().toString());
-                startActivity(intent);
+                // 모든 항목이 알맞게 입력되었으면 다음 페이지로 넘어가도록
+                if(checkEmail() & checkPassword() & checkPassword_check() & checkName() & checkBirthday()) {
+                    Intent intent = new Intent(getApplicationContext(), Signup2.class);
+                    intent.putExtra("NAME", name_et.getText().toString());
+                    startActivity(intent);
+                }
+
             }
         });
     }
@@ -200,16 +156,72 @@ public class Signup1 extends AppCompatActivity {
                     ")+"
     );
 
-    private boolean checkEmail(String email) {
-        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    private boolean checkEmail() {
+        String email = email_et.getText().toString();
+        boolean valid = EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+
+        if(valid) {
+            email_warn.setText("");
+            return true;
+        } else {
+            email_warn.setText("이메일 형식으로 입력하세요");
+            return false;
+        }
     }
 
-    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            birthday_et.setText(year + "." + (monthOfYear + 1) + "." + dayOfMonth);
-            Toast.makeText(getApplicationContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
+    private boolean checkPassword() {
+        String password = password_et.getText().toString();
+
+        if(password.length() == 0) {
+            password_warn.setText("비밀번호를 입력하세요");
+            return false;
+        } else {
+            password_warn.setText("");
+            return true;
         }
-    };
+    }
+
+    private boolean checkPassword_check() {
+        String password_check = password_check_et.getText().toString();
+
+        if (!password_check.equals(password_et.getText().toString())) {
+            password_check_warn.setText("비밀번호가 일치하지 않습니다");
+            return false;
+        } else {
+            password_check_warn.setText("");
+            return true;
+        }
+    }
+
+    private boolean checkName() {
+        String name = name_et.getText().toString();
+
+        if(name.length() == 0) {
+            name_warn.setText("이름을 입력하세요");
+            return false;
+        } else {
+            name_warn.setText("");
+            return true;
+        }
+    }
+
+    private boolean checkBirthday() {
+        String birthday = birthday_et.getText().toString();
+
+        if(birthday.length() == 0) {
+            birthday_warn.setText("생년월일을 입력하세요");
+            return false;
+        } else {
+            birthday_warn.setText("");
+            return true;
+        }
+    }
+
+
+    private void setDate(int year, int month, int day) {
+        birthday_et.setText(year + "." + (month + 1) + "." + day);
+    }
+
+
 
 }
