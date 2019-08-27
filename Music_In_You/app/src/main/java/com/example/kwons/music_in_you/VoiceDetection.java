@@ -27,7 +27,7 @@ import java.net.URLConnection;
 
 import static com.example.kwons.music_in_you.PermissionCheck.MY_PERMISSION_RECORD;
 
-public class MainActivity_sub extends AppCompatActivity {
+public class VoiceDetection extends AppCompatActivity {
 
     // 로깅을 위한 TAG
     final static String TAG = "[MIYU]";
@@ -66,7 +66,7 @@ public class MainActivity_sub extends AppCompatActivity {
         setContentView(R.layout.activity_voice_detection_sub);
 
         // permission 객체 생성
-        permission = new PermissionCheck(MainActivity_sub.this);
+        permission = new PermissionCheck(VoiceDetection.this);
 
 
         // 녹음파일이 저장될 경로 지정
@@ -393,7 +393,7 @@ c
 
 
     /**
-     * PermissionCheck의 isChecked() 함수 후 호출되는 함수, MainActivity_sub.this를 파라미터로 전달하여 생성했기에 이쪽에서 호출됨
+     * PermissionCheck의 isChecked() 함수 후 호출되는 함수, VoiceDetection.this를 파라미터로 전달하여 생성했기에 이쪽에서 호출됨
      * @param requestCode : ActivityCompat.requestPermission의 세 번째 파라미터
      * @param permissions : 권한들에 대한 String 값 (Manifest.permission.XXX)
      * @param grantResults : ActivityCompat.requestPermissions의 두 번째 파라미터에 들어간 요청 권한 들에 대한 결과 값
@@ -407,7 +407,7 @@ c
                 for(int i=0; i<grantResults.length; i++) {
                     // grantResults[] : 허용된 권한은 0, 거부한 권한은 -1
                     if (grantResults[i] < 0) {
-                        Toast.makeText(MainActivity_sub.this, "해당 권한을 허용해야 합니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VoiceDetection.this, "해당 권한을 허용해야 합니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         recordVoice();
                     }
