@@ -28,11 +28,12 @@
 
                 <Button
                     android:id="@+id/search_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:background="@drawable/main_search_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
-                    android:text="search" />
+                    />
 
 
         </LinearLayout>
