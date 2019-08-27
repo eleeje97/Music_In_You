@@ -132,7 +132,7 @@
                 android:layout_height="27dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/emty_heart"
+                android:background="@drawable/empty_heart"
                 android:textOff=""
                 android:textOn="" />
 
@@ -142,7 +142,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="25dp">
+            android:paddingBottom="25dp"
+            android:gravity="center_vertical" >
 
             <ToggleButton
                 android:id="@+id/repeat"
@@ -158,22 +159,18 @@
                 android:id="@+id/pre"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-
                 android:layout_weight="1"
                 android:src="@drawable/pre_btb" />
 
 
-            <Button
-                android:id="@+id/play"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/pause_btn" />
-
-            <Button
-                android:id="@+id/pause"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/play_btn" />
+            <ToggleButton
+                android:id="@+id/play_pause_button"
+                android:layout_width="28dp"
+                android:layout_height="30dp"
+                android:background="@drawable/pause_btn"
+                android:textOff=""
+                android:textOn=""
+                android:layout_marginHorizontal="20dp" />
 
 
             <ImageView

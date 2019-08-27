@@ -3,6 +3,6 @@
     <item android:drawable="@drawable/full_heart" android:state_checked="true">
         <scale android:scaleHeight=""> </scale>
     </item>
-    <item android:drawable="@drawable/emty_heart" android:state_checked="false"/>
+    <item android:drawable="@drawable/empty_heart" android:state_checked="false"/>
 
 </selector>

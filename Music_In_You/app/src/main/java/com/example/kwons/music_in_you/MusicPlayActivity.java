@@ -21,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.kwons.music_in_you.MusicDTO;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,7 +31,8 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     public static MediaPlayer mediaPlayer;
     private TextView title,artist, currentDuration, duration;
     private ImageView album,previous,next;
-    private Button list_img,play,pause;
+    private Button list_img;
+    private ToggleButton play_pause; // 재생, 정지 버튼
     private SeekBar seekBar;
     boolean isPlaying = true;
     private ContentResolver res;
@@ -75,15 +74,12 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
         // 음악 재생 관련 버튼
         previous = (ImageView)findViewById(R.id.pre);
-        play = (Button)findViewById(R.id.play);
-        pause = (Button)findViewById(R.id.pause);
+        play_pause = findViewById(R.id.play_pause_button);
         next = (ImageView)findViewById(R.id.next);
         list_img = (Button) findViewById(R.id.list);
 
         // 버튼 리스너 추가
         previous.setOnClickListener(this);
-        play.setOnClickListener(this);
-        pause.setOnClickListener(this);
         next.setOnClickListener(this);
         repeat.setOnClickListener(this);
 
@@ -107,7 +103,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mediaPlayer.seekTo(seekBar.getProgress());
-                if(seekBar.getProgress()>0 && play.getVisibility()==View.GONE){
+                if(seekBar.getProgress()>0 && play_pause.isChecked()){
                     mediaPlayer.start();
                 }
             }
@@ -137,7 +133,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     likebtn.setBackgroundDrawable(
                             getResources().
-                                    getDrawable(R.drawable.emty_heart,null)
+                                    getDrawable(R.drawable.empty_heart,null)
                     );
                     Toast.makeText(getApplicationContext(),"좋아요 취소",Toast.LENGTH_SHORT).show();
                 }
@@ -155,43 +151,32 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                //intent.putExtra("isRandomed",isRandomed);
                 intent.putExtra("position", 1);
                 startActivity(intent);
 
             }});
 
 
-        // 플레이 버튼이 눌러졌을 때
-        play.setOnClickListener(new View.OnClickListener() {
 
+        play_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 재생 목록을 누르면 재생
-                // 정지상태 일 때
-                // 플레이 버튼을 누르면 재생
-                pause.setVisibility(View.VISIBLE); // 플레이 버튼이 눌리면 정지 버튼이 보여줌
-                play.setVisibility(View.GONE);
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
-                currentDuration.setText(DateFormat.format("mm:ss",mediaPlayer.getCurrentPosition()));
-                mediaPlayer.start();
-
-            }});
-
-
-        // 정지 버튼이 눌러졌을 때
-        pause.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // 정지 버튼
-                pause.setVisibility(View.GONE);
-                play.setVisibility(View.VISIBLE);
-                mediaPlayer.pause();
+                if(play_pause.isChecked()) { // 플레이 버튼이 눌러졌을 때
+                    // 재생 목록을 누르면 재생
+                    // 정지상태 일 때
+                    // 플레이 버튼을 누르면 재생
+                    play_pause.setBackgroundResource(R.drawable.play_btn); // 플레이 버튼이 눌리면 정지 버튼을 보여줌
+                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
+                    currentDuration.setText(DateFormat.format("mm:ss",mediaPlayer.getCurrentPosition()));
+                    mediaPlayer.start();
+                } else { // 정지 버튼이 눌러졌을 때
+                    play_pause.setBackgroundResource(R.drawable.pause_btn); // 정지 버튼이 눌리면 플레이 버튼을 보여줌
+                    mediaPlayer.pause();
+                }
+            }
+        });
 
 
-            }});
 
         // 랜덤 버튼이 눌렸을 때
         random_btn.setOnClickListener(new View.OnClickListener() {
@@ -294,12 +279,11 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setMax(mediaPlayer.getDuration());
-            currentDuration.setText(DateFormat.format("mm:ss",currentTime)); // 현재 재생되는 노래의 현재 위치(시간)을 나타냄
+            currentDuration.setText(DateFormat.format("mm:ss", currentTime)); // 현재 재생되는 노래의 현재 위치(시간)을 나타냄
 
 
             if(mediaPlayer.isPlaying()){ // 재생중이라면
-                play.setVisibility(View.GONE); // 공간차지하는 것 없이 아이콘을 숨김
-                pause.setVisibility(View.VISIBLE); // 보임
+                play_pause.setBackgroundResource(R.drawable.play_btn);
                 totalTime = (Integer.parseInt(musicDto.getDuration()));
                 duration.setText(DateFormat.format("mm:ss",totalTime)); // 현재 재생되는 노래의 전체 길이(시간)을 나타냄
 
@@ -307,8 +291,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             }
 
             else{ // 정지상태라면
-                play.setVisibility(View.VISIBLE);
-                pause.setVisibility(View.GONE);
+                play_pause.setBackgroundResource(R.drawable.pause_btn);
             }
 
 

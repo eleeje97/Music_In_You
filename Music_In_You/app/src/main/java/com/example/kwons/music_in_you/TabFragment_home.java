@@ -15,8 +15,8 @@ public class TabFragment_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
         View view = inflater.inflate(R.layout.tab_home,container,false);
 
-        textView = view.findViewById(R.id.tv);
-        textView.setText("Home 화면!!!!!!!!!");
+        //textView = view.findViewById(R.id.tv);
+        //textView.setText("Home 화면!!!!!!!!!");
 
         return view;
     }
