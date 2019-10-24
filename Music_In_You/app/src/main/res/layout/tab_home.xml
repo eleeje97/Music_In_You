@@ -114,15 +114,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="이다은이 알아서 해주겠지^^"
+            android:paddingRight="20dp"
+            android:text="수연님, \n지금 기분이 어떠신가요?"
             android:textColor="@color/colorAccent"
             android:textSize="20dp" />
+
         <ImageView
+            android:id="@+id/main_mic"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:id="@+id/main_mic"
-            android:src="@drawable/mic_icon2"/>
+            android:paddingLeft="20dp"
+            android:src="@drawable/mic_icon2" />
 
     </LinearLayout>
 
