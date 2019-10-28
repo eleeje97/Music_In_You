@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="label_color">
+        <item>"#DA4F8B"</item>
+        <item>"#FE9601"</item>
+        <item>"#FEF779"</item>
+        <item>"#6AA987"</item>
+    </array>
+</resources>

@@ -3,12 +3,23 @@ package com.example.kwons.music_in_you;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.kwons.music_in_you.Retrofit.API_Client;
+import com.example.kwons.music_in_you.Retrofit.API_Interface;
+import com.example.kwons.music_in_you.Retrofit.MemberDTO;
+import com.example.kwons.music_in_you.Retrofit.MusicPreference;
 
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Signup1 extends AppCompatActivity {
 
@@ -136,9 +147,59 @@ public class Signup1 extends AppCompatActivity {
             public void onClick(View v) {
                 // 모든 항목이 알맞게 입력되었으면 다음 페이지로 넘어가도록
                 if(checkEmail() & checkPassword() & checkPassword_check() & checkName() & checkBirthday()) {
-                    Intent intent = new Intent(getApplicationContext(), Signup2.class);
-                    intent.putExtra("NAME", name_et.getText().toString());
-                    startActivity(intent);
+
+                    // 이메일 중복 확인
+                    API_Interface apiservice = API_Client.getClient().create(API_Interface.class);
+
+                    //MemberDTO 객체를 생성
+                    MemberDTO memberDTO = new MemberDTO(email_et.getText().toString(),
+                                                        name_et.getText().toString(),
+                                                        password_et.getText().toString(),
+                                                        password_check_et.getText().toString(),
+                                                        birthday_et.getText().toString(),
+                                                        null);
+
+                    System.out.println("이메일" + memberDTO.getEmail());
+                    System.out.println("음악취향" + memberDTO.getMusic_prefernce());
+
+                    Call<MemberDTO> call = apiservice.do_signUp(memberDTO.getEmail(),
+                            memberDTO.getName(),
+                            memberDTO.getPassword1(),
+                            memberDTO.getPassword2(),
+                            memberDTO.getDate_of_birth(),
+                            null);
+
+                    call.enqueue(new Callback<MemberDTO>() {
+                        @Override
+                        public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
+
+                            //확인
+                            Log.i("Rest통신 성공",response.message());
+
+                            // 응답받은 코드 번호가 400 이라면
+                            if(response.code() == 500){
+                                Log.i("Rest_상태코드 : " ,"500");
+                            }
+                            else {
+                                Log.i("Rest_상태코드 다른것","");
+                            }
+
+                            Intent intent = new Intent(getApplicationContext(), Signup2.class);
+                            intent.putExtra("NAME", name_et.getText().toString());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(Call<MemberDTO> call, Throwable t) {
+                            // Log error here since request failed
+                            //Log.e("tag", t.toString());
+                            Log.i("Rest통신 실패:" ,t.toString());
+
+
+                        }
+                        });
+
+
                 }
 
             }

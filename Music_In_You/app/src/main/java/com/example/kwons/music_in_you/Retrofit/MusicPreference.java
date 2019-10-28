@@ -1,4 +1,4 @@
-package com.example.kwons.music_in_you;
+package com.example.kwons.music_in_you.Retrofit;
 
 public class MusicPreference {
     String happy_pref;

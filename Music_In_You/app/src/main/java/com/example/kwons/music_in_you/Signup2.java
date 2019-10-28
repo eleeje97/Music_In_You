@@ -11,6 +11,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kwons.music_in_you.Retrofit.API_Client;
+import com.example.kwons.music_in_you.Retrofit.API_Interface;
+import com.example.kwons.music_in_you.Retrofit.MemberDTO;
+
+import retrofit2.Call;
+
 public class Signup2 extends AppCompatActivity {
 
     // 컴포넌트 선언
@@ -82,6 +88,18 @@ public class Signup2 extends AppCompatActivity {
         if(page_flag == 4) {
             next_btn.setBackgroundResource(R.drawable.login_btn);
             next_btn.setText("DONE");
+        }
+
+        // API 호출
+        else if(page_flag == 5){
+            // apiservice를 만들어줌
+            API_Interface apiservice = API_Client.getClient().create(API_Interface.class);
+
+            // MemberDTO 객체
+            //MemberDTO memberDTO = new MemberDTO()
+
+            //Call<MemberDTO> call = apiservice.do_signUp(memberDTO);
+
         }
 
         radioGroup.check(R.id.question_rb1);
