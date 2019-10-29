@@ -2,24 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/tab_playlist">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="26dp"
-            android:background="@drawable/sort_icon"
-            android:id="@+id/sort_btn"/>
-
     </LinearLayout>
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+    </ListView>
 
 </LinearLayout>

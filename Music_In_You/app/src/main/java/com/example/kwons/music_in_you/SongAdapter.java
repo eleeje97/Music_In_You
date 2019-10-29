@@ -27,17 +27,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public class MyAdapter extends BaseAdapter {
+public class SongAdapter extends BaseAdapter {
 
     List<MusicDTO> list;
     LayoutInflater inflater;
     Activity activity;
 
 
-    public MyAdapter() {
+    public SongAdapter() {
     }
 
-    public MyAdapter(Activity activity, List<MusicDTO> list) {
+    public SongAdapter(Activity activity, List<MusicDTO> list) {
         this.list = list;
         this.activity = activity;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
