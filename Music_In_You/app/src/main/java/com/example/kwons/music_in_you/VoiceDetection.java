@@ -262,18 +262,26 @@ c
                 OutputStream outputStream;
                 PrintWriter writer;
 
+
+                // token과 header 추가
+                String token = "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE1NzIzNzU5NzUsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.N1JWU2qKexrn-OBzA41YUtAECxjCEWKIwoNMLJBT8NI";
+
+
                 // 서버에서 내려받은 결과 JSON
                 JSONObject result = null;
                 try{
 
                     // 서버 URL 지정 및 Connection Open
-                    URL url = new URL("http://13.125.247.188/emotion/");
+                    URL url = new URL("http://192.168.43.94:8000/emotions/voice");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     Log.i(TAG, "URL Connection DONE!");
 
                     // Connection Setting
                     connection.setRequestProperty("Content-Type", "multipart/form-data;charset=utf-8;boundary=" + boundary); // 형식, 캐릭터셋 속성 지정
+
+                    // header 지정
+                    connection.setRequestProperty("Authorization", token);
                     connection.setRequestMethod("POST"); // POST방식으로 전송
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
