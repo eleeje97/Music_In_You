@@ -56,7 +56,7 @@ public class Emotion_BarChart extends Activity  {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setTextColor(Color.BLACK);
+        xAxis.setTextColor(Color.WHITE);
         xAxis.setTextSize(12);
         xAxis.setAxisLineColor(Color.WHITE);
         xAxis.setAxisMinimum(0f);
@@ -65,7 +65,7 @@ public class Emotion_BarChart extends Activity  {
 
         // Y축 설정
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setTextColor(Color.WHITE);
         leftAxis.setTextSize(12);
         leftAxis.setAxisLineColor(Color.WHITE);
         leftAxis.setDrawGridLines(false);

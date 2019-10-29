@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // miniplayer 변수 생성
+        /*
         album = findViewById(R.id.mini_album);
         previous = findViewById(R.id.mini_pre);
         next = findViewById(R.id.mini_next);
         play = findViewById(R.id.mini_play);
         pause = findViewById(R.id.mini_pause);
-
+       */
         // 검색 버튼
         search = findViewById(R.id.search_btn);
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        musicplayer = findViewById(R.id.musicplayer);
+        /*musicplayer = findViewById(R.id.musicplayer);
         View.OnClickListener musicplayerListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         musicplayer.setOnClickListener(musicplayerListener);
 
         list = getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.
+
 
         /* 임시로 음악 DB 여기로 생성 */
         createMusicDB();

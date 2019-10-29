@@ -1,10 +1,15 @@
 package com.example.kwons.music_in_you.Emotion_chart;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.kwons.music_in_you.Login;
@@ -24,12 +29,22 @@ import java.util.ArrayList;
 
 public class Emotion_PieChart extends Activity implements OnChartValueSelectedListener {
 
+    public static Emotion_PieChart emotion_pieChart;
+
     private PieChart pieChart;
     public ArrayList<PieEntry> yValues;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emotion_pie_chart);
+
+
+        // 데이터 사용하기 위해서
+        emotion_pieChart = Emotion_PieChart.this;
+
+
+
+
 
 
         pieChart = (PieChart) findViewById(R.id.piechart);
@@ -81,7 +96,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
+        dataSet.setValueTextColor(Color.WHITE);
 
         /* PIE 그래프 데이터 SET */
         PieData data = new PieData((dataSet));
@@ -135,4 +150,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
     public void onNothingSelected() {
 
     }
+
+
+
 }
