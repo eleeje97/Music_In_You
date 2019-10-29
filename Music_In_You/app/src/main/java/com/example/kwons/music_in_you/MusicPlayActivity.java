@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -46,7 +47,10 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     // 액티비티 죽이기 위해서 객체 선언
     // 리스트 페이지로 넘어갔을 때 현재 음악 페이지를 죽이기 위해서 만든것임
     public static MusicPlayActivity musicPlayActivity;
-    TabFragment_playlist tabFragment_playlist = (TabFragment_playlist)TabFragment_playlist.tabFragment_playlist; // 리스트 액티비티 사용하기 위해 선언
+    //TabFragment_playlist tabFragment_playlist = (TabFragment_playlist)TabFragment_playlist.tabFragment_playlist; // 리스트 액티비티 사용하기 위해 선언
+
+    ToggleButton likebtn;
+    DBOpenHelper mDbOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +69,17 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
         duration = (TextView)findViewById(R.id.duration); // 음악 파일의 총 길이(시간)
         currentDuration = (TextView)findViewById(R.id.currentDuration); // 현재 데이터 위치
-        final ToggleButton likebtn = (ToggleButton)findViewById(R.id.heart); // 좋아요 버튼
+
+        list = (ArrayList<MusicDTO>) intent.getSerializableExtra("playlist");
+
+        likebtn = (ToggleButton)findViewById(R.id.heart); // 좋아요 버튼
+        mDbOpenHelper = new DBOpenHelper(this);
+
         random_btn = (ToggleButton)findViewById(R.id.random); // 랜덤 버튼
         final ToggleButton repeat = (ToggleButton)findViewById(R.id.repeat); // 반복 버튼
-        position = intent.getIntExtra("position",0);
-        list = (ArrayList<MusicDTO>) intent.getSerializableExtra("playlist");
+        position = intent.getIntExtra("playlist_position",0);
+
+
         res = getContentResolver();
 
         // 음악 재생 관련 버튼
@@ -130,12 +140,16 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                                     getDrawable(R.drawable.full_heart,null)
                     );
                     Toast.makeText(getApplicationContext(),"좋아요",Toast.LENGTH_SHORT).show();
+
+                    mDbOpenHelper.updateLoveColumn(list.get(position).getId(), 1);
                 } else {
                     likebtn.setBackgroundDrawable(
                             getResources().
                                     getDrawable(R.drawable.empty_heart,null)
                     );
                     Toast.makeText(getApplicationContext(),"좋아요 취소",Toast.LENGTH_SHORT).show();
+
+                    mDbOpenHelper.updateLoveColumn(list.get(position).getId(), 0);
                 }
             } // end onClick()
 
@@ -151,7 +165,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
-                intent.putExtra("position", 1);
+                intent.putExtra("playlist_position", 1);
                 startActivity(intent);
 
             }});
@@ -229,7 +243,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
-                            //playMusic(list.get(position)); // 한곡반복
+                            //playMusic(list.get(playlist_position)); // 한곡반복
 
                             // 전체 리스트 무한반복
                             if(position == list.size()-1) { // 현재 곡이 마지막 곡이라면
@@ -267,6 +281,21 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
     // 음악이 플레이 될 때 호출될 함수
     public void playMusic(MusicDTO musicDto) {
+        mDbOpenHelper.open();
+        int like = mDbOpenHelper.selectLoveColumn(list.get(position).getId());
+        if(like == 0) {
+            likebtn.setChecked(false);
+            likebtn.setBackgroundDrawable(
+                    getResources().
+                            getDrawable(R.drawable.empty_heart,null)
+            );
+        } else {
+            likebtn.setChecked(true);
+            likebtn.setBackgroundDrawable(
+                    getResources().
+                            getDrawable(R.drawable.full_heart,null)
+            );
+        }
 
         try {
             seekBar.setProgress(0);
@@ -423,7 +452,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
         //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         //intent.putExtra("isRandomed",isRandomed);
-        intent.putExtra("position", 1);
+        intent.putExtra("playlist_position", 1);
         startActivity(intent);
 
     }

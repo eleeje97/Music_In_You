@@ -5,20 +5,27 @@ import android.provider.BaseColumns;
 public final class Databases {
 
     public static final class CreateDB implements BaseColumns {
-        public static final String SONGURI = "song_uri";
+        public static final String IDX = "idx";
+        public static final String SONGID = "song_id";
         public static final String HAPPY = "happy";
         public static final String SAD = "sad";
         public static final String AGGRESSIVE = "aggressive";
         public static final String RELAXED = "relaxed";
-        public static final String LIKE = "like";
+        public static final String LOVE = "love";
+        public static final String COUNT = "count";
         public static final String _TABLENAME0 = "songs";
         public static final String _CREATE0 = "create table if not exists " + _TABLENAME0 + "("
-                + _ID + " integer primary key autoincrement, "
-                + SONGURI + " text not null, "
-                + HAPPY + " real not null, "
-                + SAD + " real not null, "
-                + AGGRESSIVE + " real not null, "
-                + RELAXED + " real not null, "
-                + LIKE + " integer not null);";
+                + IDX +" integer primary key autoincrement, "
+                + SONGID + " text not null, "
+                + HAPPY + " real, "
+                + SAD + " real, "
+                + AGGRESSIVE + " real, "
+                + RELAXED + " real, "
+                + LOVE + " integer not null, "
+                + COUNT + " integer not null);";
+    }
+
+    public static final class DeleteDB {
+        public static final String _DELETE0 = "DROP TABLE IF EXISTS songs";
     }
 }

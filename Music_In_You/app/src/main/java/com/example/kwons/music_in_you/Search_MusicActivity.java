@@ -1,10 +1,7 @@
 package com.example.kwons.music_in_you;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +22,7 @@ public class Search_MusicActivity extends AppCompatActivity {
     private EditText search_text; // 검색어를 입력할 텍스트 창
     private ArrayList<MusicDTO> searach_list;
     private ListView listView; // 리스트들을 보여줄 뷰
-    private MyAdapter adapter; // 리스트 뷰에 연결할 어뎁터
+    private SongAdapter adapter; // 리스트 뷰에 연결할 어뎁터
     private List<MusicDTO> list; // 데이터를 넣은 리스트
     private TextView text; // 다이얼로그 창에 보여질 메시지
     @Override
@@ -43,7 +39,7 @@ public class Search_MusicActivity extends AppCompatActivity {
 
         searach_list = new ArrayList<MusicDTO>();
         searach_list.addAll(list); // 원본을 복사함
-        adapter = new MyAdapter(this, list);
+        adapter = new SongAdapter(this, list);
         listView.setAdapter(adapter);
 
         search_text.addTextChangedListener(new TextWatcher() {
@@ -73,7 +69,7 @@ public class Search_MusicActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("아이디 ",""+id+", 포지션: "+position );
                 Intent intent = new Intent(Search_MusicActivity.this, DialogActivity.class);
-                intent.putExtra("position",position);
+                intent.putExtra("playlist_position",position);
                 startActivity(intent);
 
 

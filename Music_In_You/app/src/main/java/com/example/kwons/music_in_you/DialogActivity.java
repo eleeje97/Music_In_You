@@ -35,7 +35,7 @@ public class DialogActivity extends Activity {
         play = (Button)findViewById(R.id.play_music);
         cancel = (Button)findViewById(R.id.canel);
 
-        position = intent.getExtras().getInt("position");
+        position = intent.getExtras().getInt("playlist_position");
 
         list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 목록을 불러옴
         play.setOnClickListener(new View.OnClickListener(){
@@ -45,7 +45,7 @@ public class DialogActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(),list.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 Intent intent_music = new Intent(DialogActivity.this , MusicPlayActivity.class);
-                intent_music.putExtra("position", position);
+                intent_music.putExtra("playlist_position", position);
                 intent_music.putExtra("playlist", list);
                 startActivity(intent_music);
                 finish();

@@ -36,8 +36,8 @@
         <activity android:name=".MusicPlayActivity" />
         <activity android:name=".Search_MusicActivity" />
         <activity android:name=".DialogActivity" android:theme="@style/Theme.AppCompat.Dialog"> </activity>
-        <activity android:name=".MainActivity_PLAYLIST" />
         <activity android:name=".VoiceDetection" />
+        <activity android:name=".Songlist" />
     </application>
 
 </manifest>
