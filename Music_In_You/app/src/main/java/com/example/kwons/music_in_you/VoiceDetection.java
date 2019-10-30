@@ -1,5 +1,6 @@
 package com.example.kwons.music_in_you;
 
+import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -119,14 +120,25 @@ public class VoiceDetection extends AppCompatActivity {
                  Toast.makeText(getApplicationContext(), "녹음이 중지되었습니다.", Toast.LENGTH_SHORT).show();
 
                  // files 디렉터리에 있는 파일 리스트 출력
-                 Log.i(TAG, "리스트 개수: " + getFilesDir().list().length);
-                 for(int i = 0; i < getFilesDir().list().length; i ++) {
+                 //Log.i(TAG, "리스트 개수: " + getFilesDir().list().length);
+                 /*for(int i = 0; i < getFilesDir().list().length; i ++) {
                      Log.i(TAG, getFilesDir().list()[i]);
-                 }
+                 }*/
 
 
                  // 녹음파일을 서버로 업로드
-                 HttpMultiPart(recordFile);
+                 //HttpMultiPart(recordFile);
+
+
+                 // 임시로 녹음 중지하면 결과 창으로 넘어가게 하기
+                 try {
+                     Thread.sleep(1500);
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 }
+                 Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
+                 startActivity(intent);
+
              }
             }
         });

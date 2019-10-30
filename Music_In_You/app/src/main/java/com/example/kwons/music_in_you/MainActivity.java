@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        /*musicplayer = findViewById(R.id.musicplayer);
+        /*
+        musicplayer = findViewById(R.id.musicplayer);
+
         View.OnClickListener musicplayerListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+
         musicplayer.setOnClickListener(musicplayerListener);
+        */
 
         list = getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.
 
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(position);
 
         /* DB 조회 */
+
         DBOpenHelper mDbOpenHelper = new DBOpenHelper(this);
         mDbOpenHelper.open();
 
@@ -141,10 +146,12 @@ public class MainActivity extends AppCompatActivity {
             String Result = idx + "," +song_id + "," + happy + "," + sad + "," + aggressive + "," + relaxed + "," + love + "," + count;
             Log.e("DB조회", Result);
         }
+
     }
 
 
     /*사용자 디바이스에서 음악파일 가져와 리스트 만드는 함수*/
+
     public ArrayList<MusicDTO> getMusicList(){
         ArrayList<MusicDTO> list = new ArrayList<>(); //
 
@@ -178,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
 
         return list;
+
     }
 
 

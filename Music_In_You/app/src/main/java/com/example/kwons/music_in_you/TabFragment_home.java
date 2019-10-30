@@ -42,11 +42,19 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
     TextView textView;
     ImageView mic;
 
+    String name;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
         View view = inflater.inflate(R.layout.tab_home,container,false);
 
+        Intent intent = getActivity().getIntent();
+        name = intent.getExtras().getString("NAME");
+
         textView = view.findViewById(R.id.mic_msg);
+        textView.setText(name + textView.getText().toString());
+
+
         mic = view.findViewById(R.id.main_mic);
         mic.setOnClickListener(new View.OnClickListener() {
             @Override

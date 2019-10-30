@@ -38,6 +38,8 @@
         <activity android:name=".DialogActivity" android:theme="@style/Theme.AppCompat.Dialog"> </activity>
         <activity android:name=".VoiceDetection" />
         <activity android:name=".Songlist" />
+        <activity android:name=".MusicRecommendation" />
+
     </application>
 
 </manifest>
