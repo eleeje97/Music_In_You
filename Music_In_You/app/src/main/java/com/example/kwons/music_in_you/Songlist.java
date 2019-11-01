@@ -63,7 +63,7 @@ public class Songlist extends AppCompatActivity {
                 if(musicPlayActivity != null){
                     musicPlayActivity.finish();
                 } // 현재 실행되는 액티비티가 있다면 종료하고
-
+                //musicPlayActivity.setPosition(position);
                 intent.putExtra("playlist_position", position);
                 intent.putExtra("playlist", musicList);
 

@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Intent intent = getIntent();
+
         int position = intent.getIntExtra("playlist_position", 0);
         viewPager.setCurrentItem(position);
 
@@ -216,10 +217,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab_music_play:
                 animation();
+
+
+
                 // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
                 if (MusicPlayActivity.mediaPlayer != null) {
+                    //int position_playMusic = getIntent().getIntExtra("playlist_position", MusicPlayActivity.musicPlayActivity.getPosition());
                     Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
-                    intent.putExtra("playlist_position", 1); // 재생되는 곡의 포지션을 가지고 전달
+                    //intent.putExtra("playlist_position", ); // 재생되는 곡의 포지션을 가지고 전달
                     startActivity(intent);
                 } else { // 재생중인 음악이 없다면 토스트 메시지로 알림
                     Toast.makeText(getApplicationContext(), "재생중인 음악이 없습니다.", Toast.LENGTH_SHORT).show();

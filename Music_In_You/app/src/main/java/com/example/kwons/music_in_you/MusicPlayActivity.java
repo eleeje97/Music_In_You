@@ -473,6 +473,15 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     }
 */
 
+    public void setPosition(int position){
+        this.position = position;
+    }
+
+    public int getPosition(){
+        return position;
+    }
+
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();
