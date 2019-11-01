@@ -24,7 +24,7 @@
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:fontFamily">@font/home_font</item>
+        <item name="android:fontFamily">@font/tab_font</item>
         <item name="android:textSize">20dp</item>
 
     </style>
