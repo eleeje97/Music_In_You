@@ -24,10 +24,9 @@ public class Songlist extends AppCompatActivity {
     private SongAdapter adapter;
 
     final int ALL_SONGS = 0;
-    final int RECENT_SONGS = 1;
-    final int LIKE_SONGS = 2;
-    final int FREQUENT_SONGS = 3;
-    final int MIYU_SONGS = 4;
+    final int LIKE_SONGS = 1;
+    final int FREQUENT_SONGS = 2;
+    final int MIYU_SONGS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,25 +93,34 @@ public class Songlist extends AppCompatActivity {
 
         switch (position) {
             case ALL_SONGS:
-                musicList.clear();
                 musicList = list;
-            case RECENT_SONGS:
-                ;
+                break;
+
             case LIKE_SONGS:
-                //musicList.clear();
                 iCursor = mDbOpenHelper.selectLoveSongs();
                 while (iCursor.moveToNext()) {
                     int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
                     musicList.add(list.get(idx));
                 }
+                iCursor.close();
+                break;
 
             case FREQUENT_SONGS:
-                ;
+                iCursor = mDbOpenHelper.selectFrequentSongs();
+                while (iCursor.moveToNext()) {
+                    int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
+                    musicList.add(list.get(idx));
+                }
+                iCursor.close();
+                break;
+
             case MIYU_SONGS:
                 ;
 
         }
 
+
+        mDbOpenHelper.close();
 
         return musicList;
 

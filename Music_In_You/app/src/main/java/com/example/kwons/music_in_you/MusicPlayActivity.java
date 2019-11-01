@@ -282,7 +282,9 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     // 음악이 플레이 될 때 호출될 함수
     public void playMusic(MusicDTO musicDto) {
         mDbOpenHelper.open();
-        int like = mDbOpenHelper.selectLoveColumn(list.get(position).getId());
+
+        // 해당 노래의 좋아요 여부를 받아옴
+        int like = mDbOpenHelper.selectLoveColumn(musicDto.getId());
         if(like == 0) {
             likebtn.setChecked(false);
             likebtn.setBackgroundDrawable(
@@ -331,6 +333,31 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         catch (Exception e) {
             Log.e("SimplePlayer", e.getMessage());
         }
+
+        // 해당 곡의 count 칼럼을 1 증가시킨다.
+        mDbOpenHelper.updateCountColumn(musicDto.getId());
+
+        /* DB 조회 */
+
+        //Cursor iCursor = mDbOpenHelper.selectColumns(); // 모든 곡 조회
+        Cursor iCursor = mDbOpenHelper.selectColumns(musicDto.getId()); // 현재 재생 곡 조회
+        while(iCursor.moveToNext()){
+            int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
+            String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
+            String happy = iCursor.getString(iCursor.getColumnIndex("happy"));
+            String sad = iCursor.getString(iCursor.getColumnIndex("sad"));
+            String aggressive = iCursor.getString(iCursor.getColumnIndex("aggressive"));
+            String relaxed = iCursor.getString(iCursor.getColumnIndex("relaxed"));
+            int love = iCursor.getInt(iCursor.getColumnIndex("love"));
+            int count = iCursor.getInt(iCursor.getColumnIndex("count"));
+
+            String Result = "idx = " + idx + ", song_id = " +song_id + ", happy = " + happy + ", sad = " + sad + ", aggressive = " + aggressive + ", relaxed = " + relaxed + ", love = " + love + ", count = " + count;
+            Log.e("DB 조회", Result);
+        }
+
+        Log.e("음악 조회", musicDto.toString());
+
+
     }
 
     //앨범이 저장되어 있는 경로를 리턴합니다.

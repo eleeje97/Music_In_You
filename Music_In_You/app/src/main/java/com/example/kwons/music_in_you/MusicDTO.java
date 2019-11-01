@@ -12,18 +12,20 @@ public class MusicDTO implements Serializable , Comparable<MusicDTO> {
     private String artist;
     private String duration;
     private String data;
+    private String date_added;
 
     public MusicDTO(){ // 기본 생성자
 
     }
 
-    public MusicDTO(String id, String albumId, String title, String artist, String duration, String data){
+    public MusicDTO(String id, String albumId, String title, String artist, String duration, String data, String date_added){
         this.id = id;
         this.albumId = albumId;
         this.title = title;
         this.artist = artist;
         this.duration = duration;
         this.data = data;
+        this.date_added = date_added;
     }
 
     public String getId() {
@@ -70,6 +72,12 @@ public class MusicDTO implements Serializable , Comparable<MusicDTO> {
 
     public void setData(String data) {this.data= data; }
 
+    public String getDate_added() {
+        return date_added;
+    }
+
+    public void setDate_added(String data) {this.date_added= date_added; }
+
     @Override
     public String toString() {
         return "MusicDTO{" +
@@ -79,6 +87,7 @@ public class MusicDTO implements Serializable , Comparable<MusicDTO> {
                 ", artist='" + artist + '\'' +
                 ", duration='" + duration + '\'' +
                 ", data='" + data + '\'' +
+                ", date_added='" + date_added + '\'' +
                 '}';
     }
 

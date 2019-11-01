@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBOpenHelper {
 
@@ -78,6 +79,11 @@ public class DBOpenHelper {
         return mDB.query(Databases.CreateDB._TABLENAME0, null, null, null, null, null, null);
     }
 
+    // 특정 데이터 조회
+    public Cursor selectColumns(String song_id){
+        return mDB.rawQuery( "SELECT * FROM songs WHERE song_id=" + song_id + ";", null);
+    }
+
     // 정렬하여 조회
     public Cursor sortColumn(String sort){
         Cursor c = mDB.rawQuery( "SELECT * FROM songs ORDER BY " + sort + ";", null);
@@ -100,6 +106,12 @@ public class DBOpenHelper {
         return like;
     }
 
+    // 많이 재생한 곡 조회
+    public Cursor selectFrequentSongs() {
+        Cursor c = mDB.rawQuery( "SELECT * FROM songs ORDER BY count DESC LIMIT 20;", null);
+        return c;
+    }
+
     // 데이터 갱신
     public boolean updateColumn(String song_id, double happy, double sad, double aggressive, double relaxed, int love, int count){
         ContentValues values = new ContentValues();
@@ -116,6 +128,19 @@ public class DBOpenHelper {
     public boolean updateLoveColumn(String song_id, int love){
         ContentValues values = new ContentValues();
         values.put(Databases.CreateDB.LOVE, love);
+        return mDB.update(Databases.CreateDB._TABLENAME0, values, "song_id=" + song_id, null) > 0;
+    }
+
+    // COUNT 컬럼 갱신
+    public boolean updateCountColumn(String song_id){
+        int count = 0;
+        Cursor c = mDB.rawQuery( "SELECT count FROM songs WHERE song_id=" + song_id + ";", null);
+        while(c.moveToNext()){
+            count = c.getInt(c.getColumnIndex("count"));
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(Databases.CreateDB.COUNT, ++count);
         return mDB.update(Databases.CreateDB._TABLENAME0, values, "song_id=" + song_id, null) > 0;
     }
 

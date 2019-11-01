@@ -127,12 +127,14 @@ public class MainActivity extends AppCompatActivity {
         int position = intent.getIntExtra("playlist_position", 0);
         viewPager.setCurrentItem(position);
 
-        /* DB 조회 */
 
+        /* DB 조회 */
+        /*
         DBOpenHelper mDbOpenHelper = new DBOpenHelper(this);
         mDbOpenHelper.open();
 
         Cursor iCursor = mDbOpenHelper.selectColumns();
+
         while(iCursor.moveToNext()){
             int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
             String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
@@ -143,9 +145,11 @@ public class MainActivity extends AppCompatActivity {
             int love = iCursor.getInt(iCursor.getColumnIndex("love"));
             int count = iCursor.getInt(iCursor.getColumnIndex("count"));
 
-            String Result = idx + "," +song_id + "," + happy + "," + sad + "," + aggressive + "," + relaxed + "," + love + "," + count;
+            String Result = "idx = " + idx + ", song_id = " +song_id + ", happy = " + happy + ", sad = " + sad + ", aggressive = " + aggressive + ", relaxed = " + relaxed + ", love = " + love + ", count + " + count;
             Log.e("DB조회", Result);
         }
+        */
+
 
     }
 
@@ -162,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.TITLE, // 가져올 음악의 제목
                 MediaStore.Audio.Media.ARTIST, // 가져올 음악의 아티스트
                 MediaStore.Audio.Media.DURATION, // 음악시간
-                MediaStore.Audio.Media.DATA // 실제 데이터 위치
+                MediaStore.Audio.Media.DATA, // 실제 데이터 위치
+                MediaStore.Audio.Media.DATE_ADDED // 음악이 추가된 날짜
         };
 
         // Cursor을 이용해서 mp3데이터를 가져옴
@@ -179,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
             musicDTO.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
             musicDTO.setData(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
             musicDTO.setDuration(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
-            //Log.e("리스트 목록", musicDTO.getTitle());
+            musicDTO.setDate_added(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED)));
+            Log.e("음악 목록", musicDTO.toString());
             list.add(musicDTO);
         }
         cursor.close();

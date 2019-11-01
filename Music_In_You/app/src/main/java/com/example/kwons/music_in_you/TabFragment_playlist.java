@@ -24,13 +24,11 @@ public class TabFragment_playlist extends Fragment  {
         playlist_list = new ArrayList<>(); // 재생목록을 담는 리스트
 
         PlaylistItem all_songs = new PlaylistItem("모든 노래");
-        PlaylistItem recent_songs = new PlaylistItem("최근 추가된 곡");
         PlaylistItem like_songs = new PlaylistItem("좋아요 곡");
         PlaylistItem frequent_songs = new PlaylistItem("많이 재생한 곡");
         PlaylistItem miyu_songs = new PlaylistItem("MIYU 추천 곡");
 
         playlist_list.add(all_songs);
-        playlist_list.add(recent_songs);
         playlist_list.add(like_songs);
         playlist_list.add(frequent_songs);
         playlist_list.add(miyu_songs);
@@ -54,6 +52,4 @@ public class TabFragment_playlist extends Fragment  {
 
 
 }
-
-
 
