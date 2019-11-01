@@ -361,7 +361,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     }
 
     //앨범이 저장되어 있는 경로를 리턴합니다.
-    private static String getCoverArtPath(long albumId, Context context) {
+    static String getCoverArtPath(long albumId, Context context) {
 
         Cursor albumCursor = context.getContentResolver().query(
                 MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,

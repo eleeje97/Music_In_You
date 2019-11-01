@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button search; // 검색을 위한 버튼
     LinearLayout musicplayer;
 
-
     // miniplayer 변수 선언
     private ImageView album,previous,next;
     private Button play,pause;
@@ -80,11 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(), "search버튼 눌림", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
 
 
         list = getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.

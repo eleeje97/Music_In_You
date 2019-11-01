@@ -3,7 +3,11 @@ package com.example.kwons.music_in_you;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.annotation.LayoutRes;
@@ -33,7 +37,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class TabFragment_home extends Fragment implements OnChartValueSelectedListener {
+public class TabFragment_home extends Fragment implements OnChartValueSelectedListener, View.OnClickListener {
 
     Emotion_PieChart emotion_pieChart = (Emotion_PieChart)Emotion_PieChart.emotion_pieChart;
 
@@ -43,6 +47,9 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
     ImageView mic;
 
     String name;
+
+    // 재생목록 변수들 선언
+    LinearLayout all_songs, like_songs, frequent_songs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -55,6 +62,64 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             name = "";
         }
         else{name = intent.getExtras().getString("NAME");}*/
+
+        // 재생목록
+        all_songs = view.findViewById(R.id.all_songs);
+        like_songs = view.findViewById(R.id.like_songs);
+        frequent_songs = view.findViewById(R.id.frequent_songs);
+
+        ArrayList<MusicDTO> list; // 전체 노래 리스트
+        ArrayList<MusicDTO> playlist; // 재생목록 담아올 리스트
+        Bitmap bitmap; // 앨범 사진 가져올 비트맵
+        BitmapDrawable bitmapDrawable; // 비트맵을 Drawable로 바꿔줄 변수
+        list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 가져오기
+        playlist = new ArrayList<>();
+        DBOpenHelper mDbOpenHelper = new DBOpenHelper(view.getContext());
+        mDbOpenHelper.open();
+        Cursor iCursor;
+
+
+        // 재생목록에 앨범 사진 넣기
+        // (1) 모든 노래
+        bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
+                Long.parseLong(list.get(0).getAlbumId()),
+                view.getContext()));
+        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+        all_songs.setBackground(bitmapDrawable);
+
+        // (2) 좋아요 곡
+        iCursor = mDbOpenHelper.selectLoveSongs();
+        while (iCursor.moveToNext()) {
+            int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
+            playlist.add(list.get(idx));
+        }
+        bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
+                Long.parseLong(playlist.get(0).getAlbumId()),
+                view.getContext()));
+        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+        like_songs.setBackground(bitmapDrawable);
+
+        // (3) 많이 재생한 곡
+        playlist.clear();
+        iCursor = mDbOpenHelper.selectFrequentSongs();
+        while (iCursor.moveToNext()) {
+            int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
+            playlist.add(list.get(idx));
+        }
+        bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
+                Long.parseLong(playlist.get(0).getAlbumId()),
+                view.getContext()));
+        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+        frequent_songs.setBackground(bitmapDrawable);
+
+        iCursor.close();
+        mDbOpenHelper.close();
+
+        // 재생목록에 리스너 달기
+        all_songs.setOnClickListener(this);
+        like_songs.setOnClickListener(this);
+        frequent_songs.setOnClickListener(this);
+
 
         textView = view.findViewById(R.id.mic_msg);
         //textView.setText(name + textView.getText().toString());
@@ -183,7 +248,27 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
     }
 
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        Intent intent;
 
-
-
+        switch (id) {
+            case R.id.all_songs:
+                intent = new Intent(getContext(), Songlist.class);
+                intent.putExtra("playlist_position", 0);
+                startActivity(intent);
+                break;
+            case R.id.like_songs:
+                intent = new Intent(getContext(), Songlist.class);
+                intent.putExtra("playlist_position", 1);
+                startActivity(intent);
+                break;
+            case R.id.frequent_songs:
+                intent = new Intent(getContext(), Songlist.class);
+                intent.putExtra("playlist_position", 2);
+                startActivity(intent);
+                break;
+        }
+    }
 }

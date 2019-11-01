@@ -2,6 +2,7 @@ package com.example.kwons.music_in_you;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.Collections;
 
 public class Songlist extends AppCompatActivity {
     MusicPlayActivity musicPlayActivity = (MusicPlayActivity)MusicPlayActivity.musicPlayActivity;
+    static Songlist songlist;
 
     int playlist_position;
 
@@ -32,6 +34,8 @@ public class Songlist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_list);
+
+        songlist = Songlist.this;
 
         list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 가져오기
 
