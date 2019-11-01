@@ -1,4 +1,4 @@
-package com.example.kwons.music_in_you;
+package com.example.kwons.music_in_you.Database;
 
 import android.provider.BaseColumns;
 

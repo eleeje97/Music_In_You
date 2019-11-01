@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.kwons.music_in_you.Database.DBOpenHelper;
+
 import java.util.ArrayList;
 
 
@@ -199,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDbOpenHelper.insertColumn(i, musicDTO.getId(), 0.7, 0.2, 0.01, 0.05, 0, 0);
             i++;
         }
+
 
     }
 

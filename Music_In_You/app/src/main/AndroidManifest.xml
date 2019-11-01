@@ -7,9 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,8 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-           <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,14 +32,20 @@
         <activity android:name=".Signup1" />
         <activity android:name=".Signup2" />
         <activity android:name=".Music_Classification" />
-        <activity android:name=".Emotion_chart.Emotion_PieChart"/>
+        <activity android:name=".Emotion_chart.Emotion_PieChart" />
         <activity android:name=".MusicPlayActivity" />
         <activity android:name=".Search_MusicActivity" />
-        <activity android:name=".DialogActivity" android:theme="@style/Theme.AppCompat.Dialog"> </activity>
+        <activity
+            android:name=".DialogActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
         <activity android:name=".VoiceDetection" />
         <activity android:name=".Songlist" />
         <activity android:name=".MusicRecommendation" />
 
+        <service
+            android:name=".Service.MusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
