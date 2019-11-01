@@ -23,7 +23,7 @@ public class TabFragment_playlist extends Fragment  {
         listView = view.findViewById(R.id.listview); // 재생목록 리스트뷰를 가져옴
         playlist_list = new ArrayList<>(); // 재생목록을 담는 리스트
 
-        PlaylistItem all_songs = new PlaylistItem("모든 노래");
+        PlaylistItem all_songs = new PlaylistItem("모든 곡");
         PlaylistItem like_songs = new PlaylistItem("좋아요 곡");
         PlaylistItem frequent_songs = new PlaylistItem("많이 재생한 곡");
         PlaylistItem miyu_songs = new PlaylistItem("MIYU 추천 곡");

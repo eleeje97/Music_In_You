@@ -50,6 +50,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
 
     // 재생목록 변수들 선언
     LinearLayout all_songs, like_songs, frequent_songs;
+    TextView all_songs_count, like_songs_count, frequent_songs_count;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -67,6 +68,10 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         all_songs = view.findViewById(R.id.all_songs);
         like_songs = view.findViewById(R.id.like_songs);
         frequent_songs = view.findViewById(R.id.frequent_songs);
+
+        all_songs_count = view.findViewById(R.id.all_songs_count);
+        like_songs_count = view.findViewById(R.id.like_songs_count);
+        frequent_songs_count = view.findViewById(R.id.frequent_songs_count);
 
         ArrayList<MusicDTO> list; // 전체 노래 리스트
         ArrayList<MusicDTO> playlist; // 재생목록 담아올 리스트
@@ -86,6 +91,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
                 view.getContext()));
         bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
         all_songs.setBackground(bitmapDrawable);
+        all_songs_count.setText(list.size() + all_songs_count.getText().toString());
 
         // (2) 좋아요 곡
         iCursor = mDbOpenHelper.selectLoveSongs();
@@ -98,6 +104,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
                 view.getContext()));
         bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
         like_songs.setBackground(bitmapDrawable);
+        like_songs_count.setText(playlist.size() + like_songs_count.getText().toString());
 
         // (3) 많이 재생한 곡
         playlist.clear();
@@ -111,6 +118,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
                 view.getContext()));
         bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
         frequent_songs.setBackground(bitmapDrawable);
+        frequent_songs_count.setText(playlist.size() + frequent_songs_count.getText().toString());
 
         iCursor.close();
         mDbOpenHelper.close();
