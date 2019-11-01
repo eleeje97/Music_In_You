@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Monthly Chart"
+        android:fontFamily="@font/title_font"
         android:layout_gravity="center"
         android:textColor="@color/colorAccent"
         android:textSize="20dp"/>
@@ -28,6 +29,13 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
+
         android:id="@+id/barchart" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/title_font"
+        android:id="@+id/emotion_commend"/>
 
 </LinearLayout>
