@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     static MainActivity mainActivity;
     private Button search; // 검색을 위한 버튼
@@ -33,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     PageAdapter pageAdapter;
 
+    // 플로팅 버튼
+    private FloatingActionButton fab_main, fab_voice_detector, fab_playmusic;
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +50,24 @@ public class MainActivity extends AppCompatActivity {
 
         // 세개의 탭을 만든다
         final TabLayout tabLayout = findViewById(R.id.tab_layout);
+
         tabLayout.addTab(tabLayout.newTab().setText("HOME"));
         tabLayout.addTab(tabLayout.newTab().setText("PLAYLIST"));
         tabLayout.addTab(tabLayout.newTab().setText("SETTING"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        // miniplayer 변수 생성
-        /*
-        album = findViewById(R.id.mini_album);
-        previous = findViewById(R.id.mini_pre);
-        next = findViewById(R.id.mini_next);
-        play = findViewById(R.id.mini_play);
-        pause = findViewById(R.id.mini_pause);
-       */
+        // 플로팅 액션 버튼
+        fab_main = findViewById(R.id.fab_main);
+        fab_playmusic = findViewById(R.id.fab_music_play);
+        fab_voice_detector = findViewById(R.id.fab_voice_detector);
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        // 플로팅 버튼 리스너 추가
+        fab_main.setOnClickListener(this);
+        fab_playmusic.setOnClickListener(this);
+        fab_voice_detector.setOnClickListener(this);
         // 검색 버튼
         search = findViewById(R.id.search_btn);
 
@@ -69,26 +82,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        /*
-        musicplayer = findViewById(R.id.musicplayer);
-
-        View.OnClickListener musicplayerListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
-                if (MusicPlayActivity.mediaPlayer != null) {
-                    Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
-                    intent.putExtra("playlist_position", 1); // 재생되는 곡의 포지션을 가지고 전달
-                    startActivity(intent);
-                } else { // 재생중인 음악이 없다면 토스트 메시지로 알림
-                    Toast.makeText(getApplicationContext(), "재생중인 음악이 없습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
 
 
-        musicplayer.setOnClickListener(musicplayerListener);
-        */
+
+
 
         list = getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.
 
@@ -210,4 +207,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // 플로팅 버튼 클릭 이벤트
+    @Override
+    public void onClick(View view) {
+
+        int id = view.getId();
+
+        switch (id){
+
+            case R.id.fab_main:
+                animation();
+                break;
+
+            case R.id.fab_music_play:
+                animation();
+                // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
+                if (MusicPlayActivity.mediaPlayer != null) {
+                    Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
+                    intent.putExtra("playlist_position", 1); // 재생되는 곡의 포지션을 가지고 전달
+                    startActivity(intent);
+                } else { // 재생중인 음악이 없다면 토스트 메시지로 알림
+                    Toast.makeText(getApplicationContext(), "재생중인 음악이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+
+            case R.id.fab_voice_detector:
+                animation();
+                Intent intent2 = new Intent(getApplicationContext(), VoiceDetection.class);
+                startActivity(intent2);
+                break;
+
+        }
+    }
+
+    // 플로팅 버튼 애니메이션 메서드
+    public void animation(){
+
+
+        if(isFabOpen){
+            fab_playmusic.startAnimation(fab_close);
+            fab_voice_detector.startAnimation(fab_close);
+            fab_playmusic.setClickable(false);
+            fab_voice_detector.setClickable(false);
+            isFabOpen = false;
+        }
+
+        else{
+            fab_playmusic.startAnimation(fab_open);
+            fab_voice_detector.startAnimation(fab_open);
+            fab_playmusic.setClickable(true);
+            fab_voice_detector.setClickable(true);
+            isFabOpen = true;
+
+        }
+
+    }
 }

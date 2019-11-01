@@ -112,9 +112,41 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:id="@+id/weather_music_box"
+            android:background="@drawable/mic_box_icon">
+
+            <TextView
+                android:id="@+id/weather_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="0dp"
+                android:text="오늘 날씨에 \n어울리는 곡을 찾아봤어요!"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/title_font"
+                android:textColor="@color/colorAccent"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/weather_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:src="@drawable/full_heart" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:background="@drawable/mic_box_icon">
 
@@ -124,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="0dp"
+                android:layout_marginRight="20dp"
                 android:text="님, \n지금 기분이 어떠신가요?"
                 android:fontFamily="@font/title_font"
                 android:textColor="@color/colorAccent"
@@ -138,6 +171,8 @@
                 android:src="@drawable/mic_icon2" />
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

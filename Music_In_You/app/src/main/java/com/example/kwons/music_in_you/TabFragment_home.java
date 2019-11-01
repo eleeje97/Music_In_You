@@ -49,10 +49,15 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         View view = inflater.inflate(R.layout.tab_home,container,false);
 
         Intent intent = getActivity().getIntent();
-        name = intent.getExtras().getString("NAME");
+
+        // 넘어온 이름이 없으면 공백으로 출력
+        /*if(intent.getExtras().getString("NAME") == null){
+            name = "";
+        }
+        else{name = intent.getExtras().getString("NAME");}*/
 
         textView = view.findViewById(R.id.mic_msg);
-        textView.setText(name + textView.getText().toString());
+        //textView.setText(name + textView.getText().toString());
 
 
         mic = view.findViewById(R.id.main_mic);
