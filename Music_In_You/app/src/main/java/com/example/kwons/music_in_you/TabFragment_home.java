@@ -1,28 +1,22 @@
 package com.example.kwons.music_in_you;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Debug;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kwons.music_in_you.Database.DBOpenHelper;
 import com.example.kwons.music_in_you.Emotion_chart.Emotion_BarChart;
 import com.example.kwons.music_in_you.Emotion_chart.Emotion_PieChart;
 import com.github.mikephil.charting.animation.Easing;
@@ -105,14 +99,17 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             playlist.add(list.get(idx));
         }
 
-        if(playlist.size()!=0) {
+        if(playlist.size() > 0) {
             bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
                     Long.parseLong(playlist.get(0).getAlbumId()),
                     view.getContext()));
             bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
             like_songs.setBackground(bitmapDrawable);
             like_songs_count.setText(playlist.size() + like_songs_count.getText().toString());
+        } else {
+            like_songs_count.setText(0 + like_songs_count.getText().toString());
         }
+
         // (3) 많이 재생한 곡
         playlist.clear();
         iCursor = mDbOpenHelper.selectFrequentSongs();
