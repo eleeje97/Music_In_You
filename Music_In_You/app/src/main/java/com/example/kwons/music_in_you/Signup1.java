@@ -14,12 +14,18 @@ import com.example.kwons.music_in_you.Retrofit.API_Client;
 import com.example.kwons.music_in_you.Retrofit.API_Interface;
 import com.example.kwons.music_in_you.Retrofit.MemberDTO;
 import com.example.kwons.music_in_you.Retrofit.MusicPreference;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Url;
 
 public class Signup1 extends AppCompatActivity {
 
@@ -148,45 +154,40 @@ public class Signup1 extends AppCompatActivity {
                 // 모든 항목이 알맞게 입력되었으면 다음 페이지로 넘어가도록
                 if(checkEmail() & checkPassword() & checkPassword_check() & checkName() & checkBirthday()) {
 
+                    Intent intent = new Intent(Signup1.this, Signup2.class);
+                    intent.putExtra("email",email_et.getText().toString());
+                    intent.putExtra("name",name_et.getText().toString());
+                    intent.putExtra("password1",password_et.getText().toString());
+                    intent.putExtra("password2",password_check_et.getText().toString());
+                    intent.putExtra("birth",birthday_et.getText().toString());
+                    startActivity(intent);
+                    /*
                     // 이메일 중복 확인
                     API_Interface apiservice = API_Client.getClient().create(API_Interface.class);
 
-                    //MemberDTO 객체를 생성
-                    MemberDTO memberDTO = new MemberDTO(email_et.getText().toString(),
-                                                        name_et.getText().toString(),
-                                                        password_et.getText().toString(),
-                                                        password_check_et.getText().toString(),
-                                                        birthday_et.getText().toString(),
-                                                        null);
 
-                    System.out.println("이메일" + memberDTO.getEmail());
-                    System.out.println("음악취향" + memberDTO.getMusic_prefernce());
-
-                    Call<MemberDTO> call = apiservice.do_signUp(memberDTO.getEmail(),
-                            memberDTO.getName(),
-                            memberDTO.getPassword1(),
-                            memberDTO.getPassword2(),
-                            memberDTO.getDate_of_birth(),
-                            null);
+                    Call<MemberDTO> call = apiservice.do_signUp(email_et.getText().toString(),name_et.getText().toString(),password_et.getText().toString(),
+                                                                password_check_et.getText().toString(),birthday_et.getText().toString(),null);
 
                     call.enqueue(new Callback<MemberDTO>() {
                         @Override
                         public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
 
                             //확인
-                            Log.i("Rest통신 성공",response.message());
+                            Log.i("Retrofit", "Rest통신 성공");
 
-                            // 응답받은 코드 번호가 400 이라면
-                            if(response.code() == 500){
-                                Log.i("Rest_상태코드 : " ,"500");
-                            }
-                            else {
-                                Log.i("Rest_상태코드 다른것","");
-                            }
+                                //MemberDTO memberDTO  = response.body();
+                                //Log.i("Retrofit memeberDTO", memberDTO.toString());
+                            Log.d("Retrofit", response.body().toString());
+                            String result = response.errorBody().toString();
 
-                            Intent intent = new Intent(getApplicationContext(), Signup2.class);
-                            intent.putExtra("NAME", name_et.getText().toString());
-                            startActivity(intent);
+                            int code = response.code();
+                            Toast.makeText(Signup1.this, "내용:" + result, Toast.LENGTH_LONG).show();
+                            Log.i("Retrofit 상태코드: " ,String.valueOf(code) );
+                            Log.i("Retrofit 상태확인메시지: ", response.message());
+                            //Log.i("상태 메일: ", email);
+
+
                         }
 
                         @Override
@@ -198,7 +199,7 @@ public class Signup1 extends AppCompatActivity {
 
                         }
                         });
-
+                        */
 
                 }
 

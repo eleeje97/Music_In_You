@@ -89,23 +89,30 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
                 Long.parseLong(list.get(0).getAlbumId()),
                 view.getContext()));
-        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-        all_songs.setBackground(bitmapDrawable);
-        all_songs_count.setText(list.size() + all_songs_count.getText().toString());
-
+        if(bitmap != null) {
+            bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            all_songs.setBackground(bitmapDrawable);
+            all_songs_count.setText(list.size() + all_songs_count.getText().toString());
+        }
+        else{
+            all_songs.setBackground(getActivity().getDrawable(R.drawable.default_music_album));
+            all_songs_count.setText(list.size() + all_songs_count.getText().toString());
+        }
         // (2) 좋아요 곡
         iCursor = mDbOpenHelper.selectLoveSongs();
         while (iCursor.moveToNext()) {
             int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
             playlist.add(list.get(idx));
         }
-        bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
-                Long.parseLong(playlist.get(0).getAlbumId()),
-                view.getContext()));
-        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-        like_songs.setBackground(bitmapDrawable);
-        like_songs_count.setText(playlist.size() + like_songs_count.getText().toString());
 
+        if(playlist.size()!=0) {
+            bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
+                    Long.parseLong(playlist.get(0).getAlbumId()),
+                    view.getContext()));
+            bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            like_songs.setBackground(bitmapDrawable);
+            like_songs_count.setText(playlist.size() + like_songs_count.getText().toString());
+        }
         // (3) 많이 재생한 곡
         playlist.clear();
         iCursor = mDbOpenHelper.selectFrequentSongs();
