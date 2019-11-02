@@ -107,44 +107,29 @@ public class Signup2 extends AppCompatActivity {
             MusicPreference musicPreference = new MusicPreference("danceful","tearful","danceful","tearful","tearful");
             Log.i("Retrofit", "music_preference객체 생성");
 
-            // apiservice를 만들어줌
-            API_Interface apiservice = API_Client.getClient().create(API_Interface.class);
-            Log.i("Retrofit", "apiservice 만들어줌");
+            // Call객체 생성
+            Call<MemberDTO> call = API_Client.getApi_client_instance()
+                                   .getApi_service()
+                                   .do_signUp(email,name,password1,password2,birth,musicPreference);
 
-            Call<MemberDTO> call = apiservice.do_signUp(email,name,password1,password2,birth,musicPreference);
-            Log.i("Retrofit", "call 객체 만듦");
+            // enqueue()
             call.enqueue(new Callback<MemberDTO>() {
                 @Override
                 public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
-
-                    //확인
-                    Log.i("Retrofit", "Rest통신 성공");
-
-                    MemberDTO memberDTO  = response.body();
-
-
-                    //Log.i("Retrofit memeberDTO", memberDTO.toString());
-                    //Log.d("Retrofit", response.body().toString());
-                    //String result = response.errorBody().toString();
-
-                    int code = response.code();
-                    //Toast.makeText(Signup2.this, "내용:" + result, Toast.LENGTH_LONG).show();
-                    Log.i("Retrofit 상태코드: " ,String.valueOf(code) );
-                    Log.i("Retrofit 상태확인메시지: ", response.message());
-                    //Log.i("상태 메일: ", email);
-
-
+                    Log.d("Retrofit", response.toString());
+                    if(response.body() != null){
+                        System.out.println("Retrofit json 결과:" + response.body().toString());
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<MemberDTO> call, Throwable t) {
-                    // Log error here since request failed
-                    //Log.e("tag", t.toString());
-                    Log.i("Retrofit 실패:" ,t.toString());
-
-
+                    Log.e("Retrofit ERROR", t.getMessage());
+                    Log.e("Retrofit ERROR",t.getCause().toString());
                 }
             });
+
+
 
 
 

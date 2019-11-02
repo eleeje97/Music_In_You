@@ -1,14 +1,27 @@
 package com.example.kwons.music_in_you.Retrofit;
 
+import com.google.gson.annotations.SerializedName;
+
 // 회원가입한 사람들의 정보를 저장할 DTO
 public class MemberDTO {
-    String email;
-    String name;
-    String password1;
-    String password2;
-    String date_of_birth;
+
+    @SerializedName("email")
+    private String email;
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("password1")
+    private String password1;
+
+    @SerializedName("password2")
+    private String password2;
+
+    @SerializedName("date_of_birth")
+    private String date_of_birth;
 
     // 감정별 음악 취향을 저장하고 있는 객체
+    @SerializedName("music_preference")
     MusicPreference music_preference;
 
     // 모든 인자를 매개변수로 가지는 생성자를 만듬

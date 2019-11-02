@@ -14,8 +14,8 @@ public interface API_Interface {
     @FormUrlEncoded  //IllegalArgumentException: @Field parameters can only be used with form encoding 에러 해결하기 위해 사용
     @POST("rest-auth/registration")
     Call<MemberDTO> do_signUp(@Field("email") String email, @Field("name") String name, @Field("password1") String password1,
-                              @Field("password2") String password2, @Field("date_of_birth") String date_of_birth, @Field("music_preference") MusicPreference music_Preference);
-    //@Field("music_preference") MusicPreference music_Preference
+                              @Field("password2") String password2, @Field("date_of_birth") String date_of_birth,
+                              @Field("music_preference") MusicPreference music_Preference);
 
 
 }
