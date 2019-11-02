@@ -21,13 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-<<<<<<< HEAD
+
 
            <activity android:name=".MainActivity"
                      android:noHistory="true">
-=======
-        <activity android:name=".MainActivity">
->>>>>>> e80afe52ff0227a8d34fdb4988ff12a98bb4836f
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
