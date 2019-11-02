@@ -7,6 +7,14 @@ public class MusicPreference {
     String normal_pref;
     String calm_pref;
 
+    public MusicPreference(String happy_pref, String sad_pref, String angry_pref, String normal_pref, String calm_pref){
+        this.happy_pref = happy_pref;
+        this.angry_pref = angry_pref;
+        this.normal_pref = normal_pref;
+        this.calm_pref = calm_pref;
+        this.sad_pref = sad_pref;
+    }
+
     public String getHappy_pref() {
         return happy_pref;
     }

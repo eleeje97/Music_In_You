@@ -3,6 +3,7 @@ package com.example.kwons.music_in_you;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -72,9 +73,14 @@ public class SongAdapter extends BaseAdapter {
 
 
         Bitmap albumImage = getAlbumImage(activity, Integer.parseInt((list.get(position)).getAlbumId()), 170);
+        Bitmap default_albumImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.default_music_album);
 
-        imageView.setImageBitmap(albumImage);
-
+        if(albumImage == null){
+            imageView.setImageBitmap(default_albumImage);
+        }
+        else {
+            imageView.setImageBitmap(albumImage);
+        }
 
         TextView title = (TextView) convertView.findViewById(R.id.title);
         title.setTextColor(Color.WHITE); // 글씨 색 변경
@@ -134,6 +140,9 @@ public class SongAdapter extends BaseAdapter {
                     }
                 }
 
+
+
+                // 비트맵 리턴
                 return b;
             }
             catch (FileNotFoundException e) {
@@ -148,6 +157,8 @@ public class SongAdapter extends BaseAdapter {
                 }
             }
         }
+
+
         return null;
     }
 

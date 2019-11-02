@@ -26,6 +26,8 @@ import com.example.kwons.music_in_you.Database.DBOpenHelper;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.content.Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
+
 
 public class MusicPlayActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,6 +64,14 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         final Intent intent = getIntent();
         //isRandomed = intent.getExtras().getBoolean("isRandomed");
         musicPlayActivity = MusicPlayActivity.this; // 현재 클래스를 담아줌
+
+
+        // mediaPlayer 객체 만들기 전에 이미 존재하면
+        // 이전에 있던 객체는 release
+       if(mediaPlayer != null){
+            mediaPlayer.release();
+        }
+
         mediaPlayer = new MediaPlayer();
         title = (TextView)findViewById(R.id.title);
         artist = (TextView)findViewById(R.id.artist);
@@ -167,6 +177,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
                 intent.putExtra("playlist_position", 1);
+                //intent.addFlags(intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
 
             }});
@@ -284,6 +295,9 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     public void playMusic(MusicDTO musicDto) {
         mDbOpenHelper.open();
 
+
+
+
         // 해당 노래의 좋아요 여부를 받아옴
         int like = mDbOpenHelper.selectLoveColumn(musicDto.getId());
         if(like == 0) {
@@ -328,8 +342,14 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
 
             Bitmap bitmap = BitmapFactory.decodeFile(getCoverArtPath(Long.parseLong(musicDto.getAlbumId()),getApplication()));
-            album.setImageBitmap(bitmap);
+            Bitmap default_bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.default_music_album);
 
+            if(bitmap == null){
+                album.setImageBitmap(default_bitmap);
+            }
+            else {
+                album.setImageBitmap(bitmap);
+            }
         }
         catch (Exception e) {
             Log.e("SimplePlayer", e.getMessage());
