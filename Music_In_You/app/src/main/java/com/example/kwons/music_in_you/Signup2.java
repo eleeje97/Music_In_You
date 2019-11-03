@@ -117,6 +117,8 @@ public class Signup2 extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
                     Log.d("Retrofit", response.toString());
+                    Log.d("Retrofit", String.valueOf(response.code()));
+
                     if(response.body() != null){
                         System.out.println("Retrofit json 결과:" + response.body().toString());
                     }
