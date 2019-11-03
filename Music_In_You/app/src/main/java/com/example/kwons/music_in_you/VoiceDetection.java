@@ -1,5 +1,6 @@
 package com.example.kwons.music_in_you;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
@@ -41,22 +42,12 @@ public class VoiceDetection extends AppCompatActivity {
 
     // 녹음 시작/정지/재생 버튼
     Button startButton;
-    //Button stopButton;
-    //Button playButton;
 
     // 녹음 파일
     File recordFile;
 
     // Recorder 객체
     MediaRecorder recorder;
-
-    // Player 객체
-    //MediaPlayer player;
-
-
-    // 파일 업로드 버튼
-    //Button uploadButton;
-
 
     // 감정분석 결과를 보여줄 TextView
     TextView resultTextView;
@@ -78,11 +69,6 @@ public class VoiceDetection extends AppCompatActivity {
 
         // 녹음 시작/정지/재생 버튼을 가져옴
         startButton = (Button)findViewById(R.id.start);
-        //stopButton = (Button)findViewById(R.id.stop);
-        //playButton = (Button)findViewById(R.id.play);
-
-        // 파일 업로드 버튼을 가져옴
-        //uploadButton = (Button)findViewById(R.id.upload);
 
         // 감정분석 결과를 보여줄 TextView 가져옴
         resultTextView = (TextView) findViewById(R.id.result);
@@ -116,20 +102,14 @@ public class VoiceDetection extends AppCompatActivity {
                  recorder.stop();
                  recorder.release();
                  recorder = null;
-                 //button_count = 0;
                  Toast.makeText(getApplicationContext(), "녹음이 중지되었습니다.", Toast.LENGTH_SHORT).show();
-
-                 // files 디렉터리에 있는 파일 리스트 출력
-                 //Log.i(TAG, "리스트 개수: " + getFilesDir().list().length);
-                 /*for(int i = 0; i < getFilesDir().list().length; i ++) {
-                     Log.i(TAG, getFilesDir().list()[i]);
-                 }*/
 
 
                  // 녹음파일을 서버로 업로드
-                 //HttpMultiPart(recordFile);
+                 HttpMultiPart(recordFile);
 
 
+                 /**
                  // 임시로 녹음 중지하면 결과 창으로 넘어가게 하기
                  try {
                      Thread.sleep(1500);
@@ -138,57 +118,11 @@ public class VoiceDetection extends AppCompatActivity {
                  }
                  Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
                  startActivity(intent);
+                 **/
 
              }
             }
         });
-
-        // 녹음 중지 버튼 리스너
-       /*stopButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                // 녹음 중인 recorder가 없으면 return
-                if(recorder == null)
-                    return;
-
-                // 녹음을 중지하고 Recorder 자원해제
-                recorder.stop();
-                recorder.release();
-                recorder = null;
-
-                Toast.makeText(getApplicationContext(), "녹음이 중지되었습니다.", Toast.LENGTH_LONG).show();
-            }
-        });*/
-
-
-        // 재생 버튼 리스너
-        /*playButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                playAudio();
-            }
-        });*/
-
-
-
-        // 업로드 버튼 리스너
-        /*uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // files 디렉터리에 있는 파일 리스트 출력
-                Log.i(TAG, "리스트 개수: " + getFilesDir().list().length);
-                for(int i = 0; i < getFilesDir().list().length; i ++) {
-                    Log.i(TAG, getFilesDir().list()[i]);
-                }
-
-
-                // 녹음파일을 서버로 업로드
-                HttpMultiPart(recordFile);
-
-c
-            }
-
-        });*/
 
 
     }
@@ -228,37 +162,8 @@ c
     }
 
 
-    // 재생 메소드
-    /*private void playAudio() {
-        try {
-            closePlayer();
-
-            // player 객체 생성
-            player = new MediaPlayer();
-
-            // 재생할 파일 경로 지정
-            player.setDataSource(recordFile.getAbsolutePath());
-
-            // 재생 시작
-            player.prepare();
-            player.start();
-
-            Toast.makeText(this, "재생 시작됨.", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    // player 자원 해제 메소드
-    /*private void closePlayer() {
-        if (player != null) {
-            player.release();
-            player = null;
-        }
-    }*/
-
-
     // 녹음파일을 서버에 업로드하고 감정분석 결과를 받아오는 메소드
+    @SuppressLint("StaticFieldLeak")
     private void HttpMultiPart(final File file){
 
         // 백그라운드에서 실행하기 위해 비동기화 방식 사용
@@ -276,7 +181,8 @@ c
 
 
                 // token과 header 추가
-                String token = "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE1NzIzNzU5NzUsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.N1JWU2qKexrn-OBzA41YUtAECxjCEWKIwoNMLJBT8NI";
+                //String token = "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE1NzIzNzU5NzUsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.N1JWU2qKexrn-OBzA41YUtAECxjCEWKIwoNMLJBT8NI";
+                String token = "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE1NzI3NzY2MzMsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.x4_Xob5frt2r_mXpP3zi2zl6Ixq8LZc7Qa7TXvbkLZ8";
 
 
                 // 서버에서 내려받은 결과 JSON
@@ -285,6 +191,8 @@ c
 
                     // 서버 URL 지정 및 Connection Open
                     URL url = new URL("http://192.168.43.94:8000/emotions/voice");
+                    //URL url = new URL("http://192.168.35.230:8000/emotions/voice");
+
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     Log.i(TAG, "URL Connection DONE!");
@@ -303,7 +211,9 @@ c
                     Log.i(TAG, "Connection Setting DONE!");
 
                     outputStream = connection.getOutputStream();
+                    Log.i(TAG, "Get OutputStream DONE!");
                     writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+                    Log.i(TAG, "PrintWriter DONE!");
 
 
                     /** Body에 데이터를 넣어줘야 할 경우 없으면 Pass **/
@@ -319,7 +229,7 @@ c
 
                     /** 파일 데이터를 넣는 부분**/
                     writer.append("--" + boundary).append(LINE_FEED);
-                    writer.append("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
+                    writer.append("Content-Disposition: form-data; name=\"voice_file\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
                     writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(file.getName())).append(LINE_FEED);
                     writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
                     writer.append(LINE_FEED);

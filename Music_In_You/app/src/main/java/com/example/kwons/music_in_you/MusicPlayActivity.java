@@ -3,11 +3,13 @@ package com.example.kwons.music_in_you;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,11 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.kwons.music_in_you.Database.DBOpenHelper;
+import com.example.kwons.music_in_you.Service.MusicService;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -66,13 +73,16 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         musicPlayActivity = MusicPlayActivity.this; // 현재 클래스를 담아줌
 
 
+        /*******
         // mediaPlayer 객체 만들기 전에 이미 존재하면
         // 이전에 있던 객체는 release
-       if(mediaPlayer != null){
+        if(mediaPlayer != null){
             mediaPlayer.release();
         }
+         *******/
 
-        mediaPlayer = new MediaPlayer();
+        //mediaPlayer = new MediaPlayer();
+        mediaPlayer = MusicService.mediaPlayer;
         title = (TextView)findViewById(R.id.title);
         artist = (TextView)findViewById(R.id.artist);
         album = (ImageView)findViewById(R.id.album);
@@ -88,6 +98,8 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
         random_btn = (ToggleButton)findViewById(R.id.random); // 랜덤 버튼
         final ToggleButton repeat = (ToggleButton)findViewById(R.id.repeat); // 반복 버튼
+
+
         position = intent.getIntExtra("playlist_position",0);
 
 
@@ -237,7 +249,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                 }
             }
 
-    });
+        });
 
         // 반복 버튼이 눌렀을 때
         repeat.setOnClickListener(new View.OnClickListener(){
@@ -261,10 +273,10 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                             if(position == list.size()-1) { // 현재 곡이 마지막 곡이라면
                                 // 현재 음악의 길이와 진행되는 음악 길이가 같아지면
 
-                                    position = 0;
-                                    playMusic(list.get(position));
-                                    seekBar.setProgress(0);
-                                }
+                                position = 0;
+                                playMusic(list.get(position));
+                                seekBar.setProgress(0);
+                            }
                             else{ // 마지막 곡이 아니라면 순서대로 재생함
                                 position++;
                                 playMusic(list.get(position));
@@ -482,8 +494,8 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                     Log.e("ProgressUpdate",e.getMessage());
                 }
 
-    }
-}
+            }
+        }
     }/*
 
     @Override
@@ -503,14 +515,37 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+
         Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
         //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         //intent.putExtra("isRandomed",isRandomed);
         intent.putExtra("playlist_position", 1);
         startActivity(intent);
 
+        // set preference
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+
+        Gson gson = new Gson();
+        for (int i = 0; i < list.size(); i++) {
+            String music_json = gson.toJson(list.get(i));
+            jsonArray.put(music_json);
+        }
+        if (!list.isEmpty()) {
+            editor.putString("MusicList", jsonArray.toString());
+        } else {
+            editor.putString("MusicList", null);
+        }
+
+        editor.putInt("MusicPosition", position);
+        editor.apply();
+
+
     }
+
 }

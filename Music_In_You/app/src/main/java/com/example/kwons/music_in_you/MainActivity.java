@@ -2,8 +2,10 @@ package com.example.kwons.music_in_you;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -19,6 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.kwons.music_in_you.Database.DBOpenHelper;
+import com.example.kwons.music_in_you.Service.MusicService;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -222,13 +229,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 animation();
 
 
-
                 // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
-                if (MusicPlayActivity.mediaPlayer != null) {
+                if (MusicService.mediaPlayer.isPlaying()) {
+                    /**
                     //int position_playMusic = getIntent().getIntExtra("playlist_position", MusicPlayActivity.musicPlayActivity.getPosition());
                     Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
                     //intent.putExtra("playlist_position", ); // 재생되는 곡의 포지션을 가지고 전달
                     startActivity(intent);
+                     **/
+
+                    // get preference
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String json = sharedPreferences.getString("MusicList", null);
+                    ArrayList<MusicDTO> urls = new ArrayList<MusicDTO>();
+                    Gson gson = new Gson();
+                    if (json != null) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(json);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String url = jsonArray.optString(i);
+                                MusicDTO musicDTO = gson. fromJson(url, MusicDTO.class);
+                                urls.add(musicDTO);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    int position = sharedPreferences.getInt("MusicPosition", 0);
+
+                    Intent intent = new Intent(getApplicationContext(), MusicPlayActivity.class);
+                    intent.putExtra("playlist", urls);
+                    intent.putExtra("playlist_position",position);
+                    startActivity(intent);
+
                 } else { // 재생중인 음악이 없다면 토스트 메시지로 알림
                     Toast.makeText(getApplicationContext(), "재생중인 음악이 없습니다.", Toast.LENGTH_SHORT).show();
                 }

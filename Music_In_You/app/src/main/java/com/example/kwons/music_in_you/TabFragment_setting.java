@@ -30,7 +30,7 @@ public class TabFragment_setting extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), MusicService.class);
-                intent.putExtra(MusicService.MESSAGE_KEY, true);
+                intent.putExtra(MusicService.MESSAGE_KEY, MusicService.MUSIC_PLAY);
 
                 intent.putExtra(MusicService.MUSIC_DTO, list.get(5));
                 getActivity().startService(intent);
