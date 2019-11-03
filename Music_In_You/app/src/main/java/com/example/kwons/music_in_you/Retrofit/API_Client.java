@@ -29,11 +29,20 @@ public class API_Client {
     private API_Client(){
     }
 
+    // OkHttpClient 객체 생성
+    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.MINUTES)
+            .readTimeout(5, TimeUnit.MINUTES)
+            .build();
+
     // Retrofit 객체 생성
     Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create())
+                        .client(okHttpClient)
                         .build();
+
+
 
     // API_Interface(서비스) 생성
     API_Interface api_service = retrofit.create(API_Interface.class);

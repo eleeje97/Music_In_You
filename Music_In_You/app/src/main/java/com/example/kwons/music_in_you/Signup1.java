@@ -154,6 +154,38 @@ public class Signup1 extends AppCompatActivity {
                 // 모든 항목이 알맞게 입력되었으면 다음 페이지로 넘어가도록
                 if(checkEmail() & checkPassword() & checkPassword_check() & checkName() & checkBirthday()) {
 
+                    MusicPreference music_preference = new MusicPreference();
+                    // Call객체 생성
+                    Call<MemberDTO> call = API_Client.getApi_client_instance()
+                            .getApi_service()
+                            .do_signUp(email_et.getText().toString(),name_et.getText().toString(),password_et.getText().toString(),
+                                        password_check_et.getText().toString(),birthday_et.getText().toString(),music_preference);
+
+                    // enqueue()
+                    call.enqueue(new Callback<MemberDTO>() {
+                        @Override
+                        public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
+                            Log.d("Retrofit", response.toString());
+                            Log.d("Retrofit Code", String.valueOf(response.code()));
+                            Log.d("Retrofit error", response.raw().toString());
+                            Log.d("Retrofit requestbody", call.request().body().toString());
+                            Log.d("Retrofit errorbody", response.errorBody().toString());
+                            //Log.d("Retrofit responsebody", response.body().toString());
+                            if(response.body() != null){
+                                System.out.println("Retrofit json 결과:" + response.body().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MemberDTO> call, Throwable t) {
+                            Log.e("Retrofit ERROR", t.getMessage());
+                            Log.e("Retrofit ERROR",t.getCause().toString());
+                        }
+                    });
+
+
+
+                    // SignUp2로 액티비티 전환
                     Intent intent = new Intent(Signup1.this, Signup2.class);
                     intent.putExtra("email",email_et.getText().toString());
                     intent.putExtra("name",name_et.getText().toString());
@@ -161,45 +193,7 @@ public class Signup1 extends AppCompatActivity {
                     intent.putExtra("password2",password_check_et.getText().toString());
                     intent.putExtra("birth",birthday_et.getText().toString());
                     startActivity(intent);
-                    /*
-                    // 이메일 중복 확인
-                    API_Interface apiservice = API_Client.getClient().create(API_Interface.class);
 
-
-                    Call<MemberDTO> call = apiservice.do_signUp(email_et.getText().toString(),name_et.getText().toString(),password_et.getText().toString(),
-                                                                password_check_et.getText().toString(),birthday_et.getText().toString(),null);
-
-                    call.enqueue(new Callback<MemberDTO>() {
-                        @Override
-                        public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
-
-                            //확인
-                            Log.i("Retrofit", "Rest통신 성공");
-
-                                //MemberDTO memberDTO  = response.body();
-                                //Log.i("Retrofit memeberDTO", memberDTO.toString());
-                            Log.d("Retrofit", response.body().toString());
-                            String result = response.errorBody().toString();
-
-                            int code = response.code();
-                            Toast.makeText(Signup1.this, "내용:" + result, Toast.LENGTH_LONG).show();
-                            Log.i("Retrofit 상태코드: " ,String.valueOf(code) );
-                            Log.i("Retrofit 상태확인메시지: ", response.message());
-                            //Log.i("상태 메일: ", email);
-
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<MemberDTO> call, Throwable t) {
-                            // Log error here since request failed
-                            //Log.e("tag", t.toString());
-                            Log.i("Rest통신 실패:" ,t.toString());
-
-
-                        }
-                        });
-                        */
 
                 }
 

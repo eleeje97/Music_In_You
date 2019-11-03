@@ -1,13 +1,6 @@
 package com.example.kwons.music_in_you.Retrofit;
 
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,19 +9,33 @@ public class WeatherAPI_Client {
 
     final static String baseUrl = "http://api.openweathermap.org/data/2.5/";
 
-    private static Retrofit retrofit = null;
+    // 싱글톤
+    private static WeatherAPI_Client weatherAPIClient = new WeatherAPI_Client();
 
-    public static Retrofit getClient() {
-        if (retrofit == null) {
+    // getInstance()
+    public static  WeatherAPI_Client getWeatherAPIClient(){
+        return weatherAPIClient;
+    }
 
-            // Retrofit 저장할 Retrofit 타입 변수 선언
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl) // 어떤 서버로 네트워크 통신을 요청할 것인지 설정
-                    .addConverterFactory(GsonConverterFactory.create()) // GsonConverter을 이용해서 데이터를 파싱
-                    .build(); // Retrofit.Builder 객체에 설정한 정보를 이용해 실질적으로 Retrofit 객체를 만들어 반환
-        }
+    // 빈생성자 생성
+    private WeatherAPI_Client(){
+    }
 
-        // retrofit 객체 반환
-        return retrofit;
+
+    // Retrofit 객체 생성
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+
+
+    // API_Interface(서비스) 생성
+    WeatherAPI_Interface weatherAPIInterface = retrofit.create(WeatherAPI_Interface.class);
+
+
+    // getService()
+    public WeatherAPI_Interface getWeatherAPIInterface(){
+        return weatherAPIInterface;
     }
 }
