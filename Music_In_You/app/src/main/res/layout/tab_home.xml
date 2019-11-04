@@ -177,7 +177,7 @@
                 android:layout_gravity="center"
                 android:paddingRight="0dp"
                 android:layout_marginRight="20dp"
-                android:text="님, \n지금 기분이 어떠신가요?"
+                android:text="하룻고양이님, \n지금 기분이 어떠신가요?"
                 android:fontFamily="@font/title_font"
                 android:textColor="@color/colorAccent"
                 android:textSize="20dp" />

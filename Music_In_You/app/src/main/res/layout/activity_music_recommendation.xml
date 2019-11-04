@@ -24,6 +24,7 @@
         app:srcCompat="@drawable/miyu" />
 
     <TextView
+        android:id="@+id/recommend_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,7 +33,6 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/title_font"
         android:textAlignment="center"
-        android:text="오늘 기분 좋은 일 있으신가요?\nMIYU가 신나는 노래를 들려드릴게요!"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,19 +41,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.194" />
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <LinearLayout
+        android:id="@+id/recommend_playlist"
         android:layout_width="224dp"
-        android:layout_height="353dp"
+        android:layout_height="224dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/default_music_album"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626"
-        app:srcCompat="@drawable/recommend_music" />
+        app:layout_constraintVertical_bias="0.581">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/main_album"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/playlist_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/title_font"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/playlist_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/title_font"
+                android:text="곡"
+                android:textColor="@color/colorAccent"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

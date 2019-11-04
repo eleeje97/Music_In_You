@@ -58,7 +58,7 @@ public class DBOpenHelper {
         mDB.close();
     }
 
-    // 데이터 삽입
+    // 데이터 삽입 - emotion 컬럼 제외
     public long insertColumn(int idx, String song_id, double happy, double sad, double aggressive, double relaxed, int love, int count) {
         ContentValues values = new ContentValues();
         values.put(Databases.CreateDB.IDX, idx); // 음악의 인덱스 저장
@@ -111,6 +111,12 @@ public class DBOpenHelper {
         return c;
     }
 
+    // 감정별 곡 조회
+    public Cursor selectSongsByEmotion(String emotion) {
+        Cursor c = mDB.rawQuery( "SELECT * FROM songs WHERE emotion='" + emotion + "';", null);
+        return c;
+    }
+
     // 데이터 갱신
     public boolean updateColumn(String song_id, double happy, double sad, double aggressive, double relaxed, int love, int count){
         ContentValues values = new ContentValues();
@@ -120,6 +126,13 @@ public class DBOpenHelper {
         values.put(Databases.CreateDB.RELAXED, relaxed);
         values.put(Databases.CreateDB.LOVE, love);
         values.put(Databases.CreateDB.COUNT, count);
+        return mDB.update(Databases.CreateDB._TABLENAME0, values, "song_id=" + song_id, null) > 0;
+    }
+
+    // EMOTION 컬럼 갱신
+    public boolean updateEmotionColumn(String song_id, String emotion){
+        ContentValues values = new ContentValues();
+        values.put(Databases.CreateDB.EMOTION, emotion);
         return mDB.update(Databases.CreateDB._TABLENAME0, values, "song_id=" + song_id, null) > 0;
     }
 

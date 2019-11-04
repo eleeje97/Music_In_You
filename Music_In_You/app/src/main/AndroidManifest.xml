@@ -23,7 +23,8 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".Login">
+        <!-- <activity android:name=".MainActivity" android:noHistory="true" > -->
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Emotion_chart.Emotion_BarChart" />
-        <activity android:name=".MainActivity" android:noHistory="true" />
+        <activity android:name=".Login" />
         <activity android:name=".Signup1" />
         <activity android:name=".Signup2" />
         <activity android:name=".Music_Classification" />

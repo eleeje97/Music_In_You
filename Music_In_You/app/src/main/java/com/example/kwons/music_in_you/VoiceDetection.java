@@ -40,7 +40,7 @@ public class VoiceDetection extends AppCompatActivity {
     // 버튼 카운트 변수
     int button_count = 0;
 
-    // 녹음 시작/정지/재생 버튼
+    // 녹음 시작 버튼
     Button startButton;
 
     // 녹음 파일
@@ -51,6 +51,9 @@ public class VoiceDetection extends AppCompatActivity {
 
     // 감정분석 결과를 보여줄 TextView
     TextView resultTextView;
+
+    // 감정분석 결과를 저장할 변수
+    String emotion_result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class VoiceDetection extends AppCompatActivity {
 
         // 녹음파일이 저장될 경로 지정
         // getFilesDir() : /data/user/0/com.example.kwons.music_in_you/files
-        recordFile = new File(getFilesDir(), "test_record");
+        recordFile = new File(getFilesDir(), "test_record.wav");
         Log.i(TAG, "recordFile 경로 - " + recordFile.getAbsolutePath());
 
 
@@ -106,19 +109,24 @@ public class VoiceDetection extends AppCompatActivity {
 
 
                  // 녹음파일을 서버로 업로드
-                 HttpMultiPart(recordFile);
+                 //HttpMultiPart(recordFile);
+                 //emotion_result = emotion_result.substring(); // json형식에서 emotion값만 빼오는 과정 필요
 
 
-                 /**
+
                  // 임시로 녹음 중지하면 결과 창으로 넘어가게 하기
+                 emotion_result = "happy";
                  try {
                      Thread.sleep(1500);
                  } catch (InterruptedException e) {
                      e.printStackTrace();
                  }
+
+
                  Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
+                 intent.putExtra("EmotionResult", emotion_result);
                  startActivity(intent);
-                 **/
+
 
              }
             }
@@ -147,6 +155,7 @@ public class VoiceDetection extends AppCompatActivity {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP); // 파일 타입 설정
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); // 코덱 설정
         recorder.setOutputFile(recordFile.getAbsolutePath()); // 저장될 파일 위치 지정
+
 
 
         // 녹음 시작
@@ -191,7 +200,6 @@ public class VoiceDetection extends AppCompatActivity {
 
                     // 서버 URL 지정 및 Connection Open
                     URL url = new URL("http://192.168.43.94:8000/emotions/voice");
-                    //URL url = new URL("http://192.168.35.230:8000/emotions/voice");
 
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -207,6 +215,7 @@ public class VoiceDetection extends AppCompatActivity {
                     connection.setDoOutput(true);
                     connection.setUseCaches(false);
                     connection.setConnectTimeout(15000);
+                    Log.i(TAG, "Connection: " + connection.toString());
 
                     Log.i(TAG, "Connection Setting DONE!");
 
@@ -311,6 +320,7 @@ public class VoiceDetection extends AppCompatActivity {
 
                 // resultTextView에 json결과 값을 출력
                 resultTextView.setText(jsonObject.toString());
+                emotion_result = jsonObject.toString();
                 Log.i(TAG, jsonObject.toString());
 
             }

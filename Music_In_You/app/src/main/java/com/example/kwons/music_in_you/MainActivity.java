@@ -93,9 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         list = getMusicList(); // 사용자 디바이스 안에 있는 음악파일 리스트를 가져와 리스트를 만든다.
 
 
-        /* 임시로 음악 DB 여기로 생성 */
-        createMusicDB();
-
         // 각 탭의 내용을 보여주는 view pager
         final ViewPager viewPager = findViewById(R.id.pager);
 
@@ -129,34 +126,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setCurrentItem(position);
 
 
-        /* DB 조회 */
-        /*
-        DBOpenHelper mDbOpenHelper = new DBOpenHelper(this);
-        mDbOpenHelper.open();
-
-        Cursor iCursor = mDbOpenHelper.selectColumns();
-
-        while(iCursor.moveToNext()){
-            int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
-            String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
-            String happy = iCursor.getString(iCursor.getColumnIndex("happy"));
-            String sad = iCursor.getString(iCursor.getColumnIndex("sad"));
-            String aggressive = iCursor.getString(iCursor.getColumnIndex("aggressive"));
-            String relaxed = iCursor.getString(iCursor.getColumnIndex("relaxed"));
-            int love = iCursor.getInt(iCursor.getColumnIndex("love"));
-            int count = iCursor.getInt(iCursor.getColumnIndex("count"));
-
-            String Result = "idx = " + idx + ", song_id = " +song_id + ", happy = " + happy + ", sad = " + sad + ", aggressive = " + aggressive + ", relaxed = " + relaxed + ", love = " + love + ", count + " + count;
-            Log.e("DB조회", Result);
-        }
-        */
-
 
     }
 
 
     /*사용자 디바이스에서 음악파일 가져와 리스트 만드는 함수*/
-
     public ArrayList<MusicDTO> getMusicList(){
         ArrayList<MusicDTO> list = new ArrayList<>(); //
 
@@ -175,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,projection, null, null, null); // 타이틀 순으로 정렬 MediaStore.Audio.Media.TITLE+"ASC"
 
 
-        Log.e("경로: ",MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString() );
+        //Log.e("경로: ",MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString());
         while (cursor.moveToNext()){ // 가져올 음악 데이터가 존재한다면 계속 true
             MusicDTO musicDTO = new MusicDTO();
 
@@ -186,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             musicDTO.setData(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
             musicDTO.setDuration(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
             musicDTO.setDate_added(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED)));
-            Log.e("음악 목록", musicDTO.toString());
+            //Log.e("음악 목록", musicDTO.toString());
             list.add(musicDTO);
         }
         cursor.close();
@@ -195,22 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    void createMusicDB() {
-        DBOpenHelper mDbOpenHelper = new DBOpenHelper(this);
-        mDbOpenHelper.open();
-
-        //mDbOpenHelper.deleteTable();
-        mDbOpenHelper.create(); // 테이블 생성
-
-        int i = 0;
-        for (MusicDTO musicDTO : list) {
-            mDbOpenHelper.insertColumn(i, musicDTO.getId(), 0.7, 0.2, 0.01, 0.05, 0, 0);
-            i++;
-        }
-
-
-    }
 
 
     // 플로팅 버튼 클릭 이벤트
@@ -231,12 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // 현재 재생중인 곡이 있다면 해당 곡의 MusicPlayActivity로 이동
                 if (MusicService.mediaPlayer.isPlaying()) {
-                    /**
-                    //int position_playMusic = getIntent().getIntExtra("playlist_position", MusicPlayActivity.musicPlayActivity.getPosition());
-                    Intent intent = new Intent(MainActivity.this, MusicPlayActivity.class);
-                    //intent.putExtra("playlist_position", ); // 재생되는 곡의 포지션을 가지고 전달
-                    startActivity(intent);
-                     **/
 
                     // get preference
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -261,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent = new Intent(getApplicationContext(), MusicPlayActivity.class);
                     intent.putExtra("playlist", urls);
                     intent.putExtra("playlist_position",position);
+                    intent.putExtra("floatingButton", true);
                     startActivity(intent);
 
                 } else { // 재생중인 음악이 없다면 토스트 메시지로 알림

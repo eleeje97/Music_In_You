@@ -62,6 +62,9 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     ToggleButton likebtn;
     DBOpenHelper mDbOpenHelper;
 
+
+    boolean floatingButtonClicked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,37 +82,38 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         if(mediaPlayer != null){
             mediaPlayer.release();
         }
+
+        mediaPlayer = new MediaPlayer();
          *******/
-
-        //mediaPlayer = new MediaPlayer();
         mediaPlayer = MusicService.mediaPlayer;
-        title = (TextView)findViewById(R.id.title);
-        artist = (TextView)findViewById(R.id.artist);
-        album = (ImageView)findViewById(R.id.album);
-        seekBar = (SeekBar)findViewById(R.id.seekbar);
+        title = findViewById(R.id.title);
+        artist = findViewById(R.id.artist);
+        album = findViewById(R.id.album);
+        seekBar = findViewById(R.id.seekbar);
 
-        duration = (TextView)findViewById(R.id.duration); // 음악 파일의 총 길이(시간)
-        currentDuration = (TextView)findViewById(R.id.currentDuration); // 현재 데이터 위치
+        duration = findViewById(R.id.duration); // 음악 파일의 총 길이(시간)
+        currentDuration = findViewById(R.id.currentDuration); // 현재 데이터 위치
 
         list = (ArrayList<MusicDTO>) intent.getSerializableExtra("playlist");
 
-        likebtn = (ToggleButton)findViewById(R.id.heart); // 좋아요 버튼
+        likebtn = findViewById(R.id.heart); // 좋아요 버튼
         mDbOpenHelper = new DBOpenHelper(this);
 
-        random_btn = (ToggleButton)findViewById(R.id.random); // 랜덤 버튼
-        final ToggleButton repeat = (ToggleButton)findViewById(R.id.repeat); // 반복 버튼
+        random_btn = findViewById(R.id.random); // 랜덤 버튼
+        final ToggleButton repeat = findViewById(R.id.repeat); // 반복 버튼
 
 
         position = intent.getIntExtra("playlist_position",0);
+        floatingButtonClicked = intent.getBooleanExtra("floatingButton", false);
 
 
         res = getContentResolver();
 
         // 음악 재생 관련 버튼
-        previous = (ImageView)findViewById(R.id.pre);
+        previous = findViewById(R.id.pre);
         play_pause = findViewById(R.id.play_pause_button);
-        next = (ImageView)findViewById(R.id.next);
-        list_img = (Button) findViewById(R.id.list);
+        next = findViewById(R.id.next);
+        list_img = findViewById(R.id.list);
 
         // 버튼 리스너 추가
         previous.setOnClickListener(this);
@@ -162,7 +166,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                             getResources().
                                     getDrawable(R.drawable.full_heart,null)
                     );
-                    Toast.makeText(getApplicationContext(),"좋아요",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"좋아요",Toast.LENGTH_SHORT).show();
 
                     mDbOpenHelper.updateLoveColumn(list.get(position).getId(), 1);
                 } else {
@@ -170,7 +174,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                             getResources().
                                     getDrawable(R.drawable.empty_heart,null)
                     );
-                    Toast.makeText(getApplicationContext(),"좋아요 취소",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"좋아요 취소",Toast.LENGTH_SHORT).show();
 
                     mDbOpenHelper.updateLoveColumn(list.get(position).getId(), 0);
                 }
@@ -187,11 +191,11 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
-                intent.putExtra("playlist_position", 1);
-                //intent.addFlags(intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                Intent intent = new Intent(getApplicationContext(), Songlist.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
+                intent.putExtra("currentList", list);
                 startActivity(intent);
 
+                //onDestroy();
             }});
 
 
@@ -205,7 +209,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
                     // 플레이 버튼을 누르면 재생
                     play_pause.setBackgroundResource(R.drawable.play_btn); // 플레이 버튼이 눌리면 정지 버튼을 보여줌
                     mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
-                    currentDuration.setText(DateFormat.format("mm:ss",mediaPlayer.getCurrentPosition()));
+                    currentDuration.setText(DateFormat.format("mm:ss", mediaPlayer.getCurrentPosition()));
                     mediaPlayer.start();
                 } else { // 정지 버튼이 눌러졌을 때
                     play_pause.setBackgroundResource(R.drawable.pause_btn); // 정지 버튼이 눌리면 플레이 버튼을 보여줌
@@ -307,9 +311,6 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     public void playMusic(MusicDTO musicDto) {
         mDbOpenHelper.open();
 
-
-
-
         // 해당 노래의 좋아요 여부를 받아옴
         int like = mDbOpenHelper.selectLoveColumn(musicDto.getId());
         if(like == 0) {
@@ -327,15 +328,23 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         }
 
         try {
-            seekBar.setProgress(0);
+            if (floatingButtonClicked) {
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
+                mediaPlayer.start();
+            } else {
+                seekBar.setProgress(0);
+                Uri musicURI = Uri.withAppendedPath(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+musicDto.getId()); //경로
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(this, musicURI);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            }
+
+
             title.setText(musicDto.getTitle());
             artist.setText(musicDto.getArtist());
-            Uri musicURI = Uri.withAppendedPath(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+musicDto.getId()); //경로
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(this, musicURI);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
             seekBar.setMax(mediaPlayer.getDuration());
             currentDuration.setText(DateFormat.format("mm:ss", currentTime)); // 현재 재생되는 노래의 현재 위치(시간)을 나타냄
 
@@ -371,7 +380,6 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
         mDbOpenHelper.updateCountColumn(musicDto.getId());
 
         /* DB 조회 */
-
         //Cursor iCursor = mDbOpenHelper.selectColumns(); // 모든 곡 조회
         Cursor iCursor = mDbOpenHelper.selectColumns(musicDto.getId()); // 현재 재생 곡 조회
         while(iCursor.moveToNext()){
@@ -390,6 +398,7 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
         Log.e("음악 조회", musicDto.toString());
 
+        setPreference();
 
     }
 
@@ -496,7 +505,8 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
 
             }
         }
-    }/*
+    }
+    /*
 
     @Override
     protected void onDestroy() {
@@ -515,22 +525,12 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
-        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        //intent.putExtra("isRandomed",isRandomed);
-        intent.putExtra("playlist_position", 1);
-        startActivity(intent);
-
-        // set preference
+    public void setPreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         JSONArray jsonArray = new JSONArray();
 
+        // 현재 재생 중인 음악 리스트
         Gson gson = new Gson();
         for (int i = 0; i < list.size(); i++) {
             String music_json = gson.toJson(list.get(i));
@@ -542,8 +542,20 @@ public class MusicPlayActivity extends AppCompatActivity implements View.OnClick
             editor.putString("MusicList", null);
         }
 
+        // 현재 재생 중인 음악 position
         editor.putInt("MusicPosition", position);
         editor.apply();
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+
+        //Intent intent = new Intent(getApplicationContext(),MainActivity.class); // 홈의 리스트 목록으로 이동 하도록 해야함☆
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //intent.putExtra("isRandomed",isRandomed);
+        //intent.putExtra("playlist_position", 1);
+        //startActivity(intent);
 
 
     }

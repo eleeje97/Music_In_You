@@ -11,6 +11,7 @@ public final class Databases {
         public static final String SAD = "sad";
         public static final String AGGRESSIVE = "aggressive";
         public static final String RELAXED = "relaxed";
+        public static final String EMOTION = "emotion";
         public static final String LOVE = "love";
         public static final String COUNT = "count";
         public static final String _TABLENAME0 = "songs";
@@ -21,6 +22,7 @@ public final class Databases {
                 + SAD + " real, "
                 + AGGRESSIVE + " real, "
                 + RELAXED + " real, "
+                + EMOTION + " text, "
                 + LOVE + " integer not null, "
                 + COUNT + " integer not null);";
     }
