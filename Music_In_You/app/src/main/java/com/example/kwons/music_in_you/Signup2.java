@@ -54,6 +54,7 @@ public class Signup2 extends AppCompatActivity {
 
         Intent intent = getIntent();
         name = intent.getExtras().getString("name");
+
         question = question_tv.getText().toString();
 
         question_tv.setText((page_flag+1)+". "+ name + "님은 " + emotions[page_flag] + question);
@@ -150,7 +151,8 @@ public class Signup2 extends AppCompatActivity {
     void onPrevButtonClicked() {
         page_flag--;
         question_tv.setText((page_flag+1)+". "+ name + "님은 " + emotions[page_flag] + question);
-
+        next_btn.setBackgroundResource(R.drawable.signup_next_btn);
+        next_btn.setText("");
         if(page_flag < 4) {
             next_btn.setBackgroundResource(R.drawable.signup_next_btn);
         }
