@@ -48,7 +48,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
 
 
         pieChart = (PieChart) findViewById(R.id.piechart);
-        Toast.makeText(Emotion_PieChart.this,"Pie Chart",Toast.LENGTH_LONG).show();
+        //Toast.makeText(Emotion_PieChart.this,"Pie Chart",Toast.LENGTH_LONG).show();
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText("EMOTION");
@@ -113,7 +113,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
     public void onValueSelected(Entry e, Highlight h) {
         // Happy일 때,
         if (e.equalTo(yValues.get(0))) {
-            Toast.makeText(Emotion_PieChart.this, yValues.get(0).getLabel(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Emotion_PieChart.this, yValues.get(0).getLabel(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Emotion_BarChart.class);
             intent.putExtra("emotion",yValues.get(0).getLabel());
             startActivity(intent);
@@ -121,7 +121,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
 
         // Angry일 때,
         else if(e.equalTo(yValues.get(1))) {
-            Toast.makeText(Emotion_PieChart.this, yValues.get(1).getLabel(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Emotion_PieChart.this, yValues.get(1).getLabel(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Emotion_BarChart.class);
             intent.putExtra("emotion",yValues.get(1).getLabel());
             startActivity(intent);
@@ -129,7 +129,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
 
         // Sad일 때,
         else if(e.equalTo(yValues.get(2))) {
-            Toast.makeText(Emotion_PieChart.this, yValues.get(2).getLabel(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Emotion_PieChart.this, yValues.get(2).getLabel(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Emotion_BarChart.class);
             intent.putExtra("emotion",yValues.get(2).getLabel());
             startActivity(intent);
@@ -137,7 +137,7 @@ public class Emotion_PieChart extends Activity implements OnChartValueSelectedLi
 
         // Calm일 때,
         else if(e.equalTo(yValues.get(3))) {
-            Toast.makeText(Emotion_PieChart.this, yValues.get(3).getLabel(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Emotion_PieChart.this, yValues.get(3).getLabel(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Emotion_BarChart.class);
             intent.putExtra("emotion",yValues.get(3).getLabel());
             startActivity(intent);

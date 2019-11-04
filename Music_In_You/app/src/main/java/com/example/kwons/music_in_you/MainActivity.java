@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent serarch_intent = new Intent(MainActivity.this, Search_MusicActivity.class);
                 startActivity(serarch_intent);
-                Toast.makeText(getApplicationContext(), "search버튼 눌림", Toast.LENGTH_SHORT).show();
+               //Toast.makeText(getApplicationContext(), "search버튼 눌림", Toast.LENGTH_SHORT).show();
             }
         });
 

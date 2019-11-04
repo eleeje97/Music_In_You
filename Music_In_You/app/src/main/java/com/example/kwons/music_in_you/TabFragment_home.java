@@ -43,7 +43,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
     String name;
 
     // 재생목록 변수들 선언
-    LinearLayout all_songs, like_songs, frequent_songs;
+    LinearLayout all_songs, like_songs, frequent_songs, weather_music_box;
     TextView all_songs_count, like_songs_count, frequent_songs_count;
 
     @Override
@@ -62,6 +62,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         all_songs = view.findViewById(R.id.all_songs);
         like_songs = view.findViewById(R.id.like_songs);
         frequent_songs = view.findViewById(R.id.frequent_songs);
+        weather_music_box = view.findViewById(R.id.weather_music_box);
 
         all_songs_count = view.findViewById(R.id.all_songs_count);
         like_songs_count = view.findViewById(R.id.like_songs_count);
@@ -131,6 +132,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         all_songs.setOnClickListener(this);
         like_songs.setOnClickListener(this);
         frequent_songs.setOnClickListener(this);
+        weather_music_box.setOnClickListener(this);
 
 
         textView = view.findViewById(R.id.mic_msg);
@@ -146,13 +148,10 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             }
         });
 
-        //Log.i("MIYU", getView().toString());
-        //View pChart = inflater.inflate(R.layout.emotion_pie_chart,container);
 
-        //View pChart = getView().findViewById(R.id.include_pie_chart);
         PieChart pieChart = view.findViewById(R.id.piechart);
 
-        Toast.makeText(getContext(),"Pie Chart",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"Pie Chart",Toast.LENGTH_LONG).show();
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText("EMOTION");
@@ -279,6 +278,11 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             case R.id.frequent_songs:
                 intent = new Intent(getContext(), Songlist.class);
                 intent.putExtra("playlist_position", 2);
+                startActivity(intent);
+                break;
+
+            case R.id.weather_music_box:
+                intent = new Intent(getContext(), Weather_result_Test.class);
                 startActivity(intent);
                 break;
         }
