@@ -104,7 +104,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
 
-
+/*
 
     private Callback<WeatherData> callback = new Callback<WeatherData>() {
 
@@ -212,6 +212,6 @@ public class ScrollingActivity extends AppCompatActivity {
     };
 
 
-
+*/
 
 }

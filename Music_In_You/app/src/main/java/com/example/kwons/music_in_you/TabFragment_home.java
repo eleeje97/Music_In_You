@@ -108,6 +108,7 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             like_songs.setBackground(bitmapDrawable);
             like_songs_count.setText(playlist.size() + like_songs_count.getText().toString());
         } else {
+            like_songs.setBackground(getActivity().getDrawable(R.drawable.default_music_album));
             like_songs_count.setText(0 + like_songs_count.getText().toString());
         }
 
@@ -118,12 +119,18 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
             int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
             playlist.add(list.get(idx));
         }
-        bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
-                Long.parseLong(playlist.get(0).getAlbumId()),
-                view.getContext()));
-        bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-        frequent_songs.setBackground(bitmapDrawable);
-        frequent_songs_count.setText(playlist.size() + frequent_songs_count.getText().toString());
+        if (playlist.size() > 0) {
+            bitmap = BitmapFactory.decodeFile(MusicPlayActivity.getCoverArtPath(
+                    Long.parseLong(playlist.get(0).getAlbumId()),
+                    view.getContext()));
+            bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            frequent_songs.setBackground(bitmapDrawable);
+            frequent_songs_count.setText(playlist.size() + frequent_songs_count.getText().toString());
+        } else {
+            frequent_songs_count.setText(0 + frequent_songs_count.getText().toString());
+        }
+
+
 
         iCursor.close();
         mDbOpenHelper.close();

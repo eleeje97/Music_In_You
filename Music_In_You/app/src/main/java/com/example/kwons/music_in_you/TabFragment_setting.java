@@ -50,12 +50,16 @@ public class TabFragment_setting extends Fragment {
 
         int i = 0;
 
-        for (MusicDTO musicDTO : list) {
-            mDbOpenHelper.insertColumn(i, musicDTO.getId(), 0.7, 0.2, 0.01, 0.05, 0, 0);
-        }
 
-        for (MusicDTO musicDTO : list) {
+        /***************************************************************/
 
+        //음악 감정 분류 할 코드
+        //mDbOpenHelper.insertColumn(0, list.get(0).getId(), 1, 0, 0, 0, 0, 0);
+
+        /***************************************************************/
+
+        for (int j = 0; j < list.size(); j++) {
+            mDbOpenHelper.insertColumn(j, list.get(j).getId(), 1, 0, 0, 0, 0, 0);
             //putEmotion();
             ArrayList<Double> emotions = new ArrayList<>();
             Cursor iCursor = mDbOpenHelper.selectColumns();
