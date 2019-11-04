@@ -27,7 +27,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".Signup1">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +35,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Emotion_chart.Emotion_BarChart" />
-        <activity android:name=".MainActivity" android:noHistory="true" />
+        <activity android:name=".Signup1"/>
         <activity android:name=".Signup2" />
         <activity android:name=".Weather.ScrollingActivity" />
         <activity android:name=".Music_Classification" />
+        <activity android:name=".Weather_result_Test"/>
         <activity android:name=".Emotion_chart.Emotion_PieChart" />
         <activity android:name=".MusicPlayActivity" />
         <activity android:name=".Search_MusicActivity" />
