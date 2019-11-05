@@ -23,7 +23,7 @@ public class Search_MusicActivity extends AppCompatActivity {
     private ArrayList<MusicDTO> searach_list;
     private ListView listView; // 리스트들을 보여줄 뷰
     private SongAdapter adapter; // 리스트 뷰에 연결할 어뎁터
-    private List<MusicDTO> list; // 데이터를 넣은 리스트
+    private ArrayList<MusicDTO> list; // 데이터를 넣은 리스트
     private TextView text; // 다이얼로그 창에 보여질 메시지
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +67,17 @@ public class Search_MusicActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("아이디 ",""+id+", 포지션: "+position );
-                Intent intent = new Intent(Search_MusicActivity.this, DialogActivity.class);
-                intent.putExtra("playlist_position",position);
+                Log.e("아이디 ",""+id+", 포지션: "+position + "list.get(position).getId(): "+ list.get(position).getId());
+                //Intent intent = new Intent(Search_MusicActivity.this, DialogActivity.class);
+                Intent intent = new Intent(Search_MusicActivity.this, MusicPlayActivity.class);
+                intent.putExtra("playlist_position", position);
+                intent.putExtra("playlist", list);
                 startActivity(intent);
 
 
             }
         });
     }
-
-
-
 
 
     // 검색을 수행하는 메소드

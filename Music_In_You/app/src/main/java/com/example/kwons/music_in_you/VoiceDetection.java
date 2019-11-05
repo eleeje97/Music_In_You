@@ -109,11 +109,13 @@ public class VoiceDetection extends AppCompatActivity {
 
 
                  // 녹음파일을 서버로 업로드
-                 //HttpMultiPart(recordFile);
-                 //emotion_result = emotion_result.substring(); // json형식에서 emotion값만 빼오는 과정 필요
+                 HttpMultiPart(recordFile);
+                 //emotion_result = emotion_result.substring(11,emotion_result.length()-2); // json형식에서 emotion값만 빼오는 과정 필요
+
+                 //Log.i("[MIYU]", emotion_result);
 
 
-
+                 /*
                  // 임시로 녹음 중지하면 결과 창으로 넘어가게 하기
                  emotion_result = "happy";
                  try {
@@ -121,11 +123,12 @@ public class VoiceDetection extends AppCompatActivity {
                  } catch (InterruptedException e) {
                      e.printStackTrace();
                  }
+                 */
 
 
-                 Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
-                 intent.putExtra("EmotionResult", emotion_result);
-                 startActivity(intent);
+                 //Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
+                 //intent.putExtra("EmotionResult", emotion_result);
+                 //startActivity(intent);
 
 
              }
@@ -319,9 +322,17 @@ public class VoiceDetection extends AppCompatActivity {
                 super.onPostExecute(jsonObject);
 
                 // resultTextView에 json결과 값을 출력
-                resultTextView.setText(jsonObject.toString());
-                emotion_result = jsonObject.toString();
+                //resultTextView.setText(jsonObject.toString());
                 Log.i(TAG, jsonObject.toString());
+                emotion_result = jsonObject.toString();
+                emotion_result = emotion_result.substring(11,emotion_result.length()-2);
+                Log.i(TAG, emotion_result);
+
+                emotion_result = "happy";
+
+                Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
+                intent.putExtra("EmotionResult", emotion_result);
+                startActivity(intent);
 
             }
 
