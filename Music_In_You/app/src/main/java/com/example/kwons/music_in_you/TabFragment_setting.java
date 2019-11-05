@@ -181,43 +181,6 @@ public class TabFragment_setting extends Fragment {
 
         /***************************************************************/
 
-        //DBOpenHelper mDbOpenHelperr = new DBOpenHelper(getContext());
-        //mDbOpenHelperr.open();
-        //mDbOpenHelperr.insertColumn(j, list.get(j).getId(), 1, 0, 0, 0, 0, 0);
-        //putEmotion();
-
-
-        ArrayList<Double> emotions = new ArrayList<>();
-        Cursor iCursor = mDbOpenHelper.selectColumns();
-
-
-
-
-        while (iCursor.moveToNext()) {
-            /**
-            String[] emotion_label = {"happy", "sad", "aggressive", "relaxed"};
-
-
-            String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
-            double happy = iCursor.getDouble(iCursor.getColumnIndex("happy"));
-            double sad = iCursor.getDouble(iCursor.getColumnIndex("sad"));
-            double aggressive = iCursor.getDouble(iCursor.getColumnIndex("aggressive"));
-            double relaxed = iCursor.getDouble(iCursor.getColumnIndex("relaxed"));
-
-            emotions.add(happy);
-            emotions.add(sad);
-            emotions.add(aggressive);
-            emotions.add(relaxed);
-
-            Log.e("emotions 조회", emotions.get(0) + ", " + emotions.get(1) + ", " + emotions.get(2) + ", " + emotions.get(3));
-
-            Double emotion = Collections.max(emotions);
-            mDbOpenHelper.updateEmotionColumn(song_id, emotion_label[emotions.indexOf(emotion)]);
-            Log.e("emotion 조회", emotion_label[emotions.indexOf(emotion)]);
-             **/
-
-
-        }
 
         mDbOpenHelper.close();
 
@@ -254,34 +217,27 @@ public class TabFragment_setting extends Fragment {
         DBOpenHelper mDbOpenHelper = new DBOpenHelper(getContext());
         mDbOpenHelper.open();
 
-        ArrayList<Double> emotions = new ArrayList<>();
         Cursor iCursor = mDbOpenHelper.selectColumns();
 
+        String[] emotion_label = {"happy", "sad", "aggressive", "relaxed"};
 
         while (iCursor.moveToNext()) {
-
-             String[] emotion_label = {"happy", "sad", "aggressive", "relaxed"};
-
-
              String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
              double happy = iCursor.getDouble(iCursor.getColumnIndex("happy"));
              double sad = iCursor.getDouble(iCursor.getColumnIndex("sad"));
              double aggressive = iCursor.getDouble(iCursor.getColumnIndex("aggressive"));
              double relaxed = iCursor.getDouble(iCursor.getColumnIndex("relaxed"));
 
-             emotions.add(happy);
-             emotions.add(sad);
-             emotions.add(aggressive);
-             emotions.add(relaxed);
+             Double[]  emotions = {happy, sad, aggressive, relaxed};
+             int max = 0;
 
-             Log.e("emotions 조회", emotions.get(0) + ", " + emotions.get(1) + ", " + emotions.get(2) + ", " + emotions.get(3));
+             for (int i = 1; i < emotions.length; i++) {
+                 if(emotions[i] > emotions[max]) {
+                     max = i;
+                 }
+             }
 
-             Double emotion = Collections.max(emotions);
-             mDbOpenHelper.updateEmotionColumn(song_id, emotion_label[emotions.indexOf(emotion)]);
-             Log.e("emotion 조회", emotion_label[emotions.indexOf(emotion)]);
-
-
-
+             mDbOpenHelper.updateEmotionColumn(song_id, emotion_label[max]);
         }
 
         mDbOpenHelper.close();

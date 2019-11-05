@@ -1,13 +1,17 @@
 package com.example.kwons.music_in_you;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.kwons.music_in_you.Database.DBOpenHelper;
 
 import java.util.ArrayList;
 
@@ -30,9 +34,24 @@ public class Weather_result_Test extends Activity {
         play_btn = findViewById(R.id.direct_play);
         ImageView album = findViewById(R.id.imageView3); // 노래 앨범 담을 이미지뷰
 
-        // 비트맵
+        list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 가져오기
+
+        DBOpenHelper mDbOpenHelper = new DBOpenHelper(getApplicationContext());
+        mDbOpenHelper.open();
+
+        Cursor iCursor;
         Bitmap bitmap; // 앨범 사진 가져올 비트맵
         BitmapDrawable bitmapDrawable; // 비트맵을 Drawable로 바꿔줄 변수
+
+
+        iCursor = mDbOpenHelper.selectSongsByEmotion("happy");
+        while (iCursor.moveToNext()) {
+            int idx = iCursor.getInt(iCursor.getColumnIndex("idx"));
+            String song_id = iCursor.getString(iCursor.getColumnIndex("song_id"));
+
+            musicList.add(list.get(idx));
+        }
+
 
 
 
@@ -54,7 +73,7 @@ public class Weather_result_Test extends Activity {
         });
 
 
-        list = MainActivity.mainActivity.getMusicList(); // 음악 리스트 가져오기
+
 
 
         // 이미지 뷰

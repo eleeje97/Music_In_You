@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MusicRecommendation extends AppCompatActivity {
     TextView recommend_text; // 추천멘트
@@ -148,7 +149,22 @@ public class MusicRecommendation extends AppCompatActivity {
                 }
 
                 recommend_text.setText("지금 이 감정을 노래와 함께\n두배로 즐겨보는 건 어떠세요?");
-                playlist_title.setText("relaxed");
+                playlist_title.setText("Relaxed");
+                playlist_count.setText(list.size() + "곡");
+
+                break;
+
+            case "normal":
+
+                Random random = new Random();
+                for (int i = 0; i < 20; i++) {
+                    int position = random.nextInt(all_list.size());
+                    list.add(all_list.get(position));
+                }
+
+
+                recommend_text.setText("평소 즐겨듣던 노래를\n추천해드릴게요!");
+                playlist_title.setText("Normal");
                 playlist_count.setText(list.size() + "곡");
 
                 break;
