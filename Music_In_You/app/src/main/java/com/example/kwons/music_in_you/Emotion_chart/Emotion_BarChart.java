@@ -94,6 +94,7 @@ public class Emotion_BarChart extends Activity  {
                 "사람에게 쓸모없는 감정은 없습니다. 단지 조절해야할 감정이 있을 뿐이죠! MIYU와 함께 음악을 들으며 감정을 다스려보아요!"
         };
         String[] calm_ment = {"세상에서 가장 현명한 사람은 감정을 조절할 수 있는 사람이래요! " +
+                "바로 당신이 그 현명한 사람이 아닐까요?","세상에서 가장 현명한 사람은 감정을 조절할 수 있는 사람이래요! " +
                 "바로 당신이 그 현명한 사람이 아닐까요?"};
 
 
@@ -184,7 +185,7 @@ public class Emotion_BarChart extends Activity  {
                 break;
 
             case "Calm":
-                emotion_data = random.nextInt(sad_ment.length);
+                emotion_data = random.nextInt(calm_ment.length);
                 barDataSet.setColor(Color.parseColor(colors[3])); // Calm일 때 색상
                 emotion_ment.setText(calm_ment[emotion_data]);
                 emotion_ment.setTypeface(typeface);

@@ -116,7 +116,7 @@ public class MusicRecommendation extends AppCompatActivity {
 
                 break;
 
-            case "aggressive":
+            case "angry":
                 iCursor = mDbOpenHelper.selectSongsByEmotion("aggressive");
                 Log.e("EMOTION 조회", "곡 개수 - " + iCursor.getCount() + "");
                 while (iCursor.moveToNext()) {
@@ -135,7 +135,7 @@ public class MusicRecommendation extends AppCompatActivity {
 
                 break;
 
-            case "relaxed":
+            case "calm":
                 iCursor = mDbOpenHelper.selectSongsByEmotion("relaxed");
                 Log.e("EMOTION 조회", "곡 개수 - " + iCursor.getCount() + "");
                 while (iCursor.moveToNext()) {

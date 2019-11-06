@@ -109,7 +109,7 @@ public class VoiceDetection extends AppCompatActivity {
 
 
                  // 녹음파일을 서버로 업로드
-                 //HttpMultiPart(recordFile);
+                 HttpMultiPart(recordFile);
                  //emotion_result = emotion_result.substring(11,emotion_result.length()-2); // json형식에서 emotion값만 빼오는 과정 필요
 
                  //Log.i("[MIYU]", emotion_result);
@@ -126,10 +126,12 @@ public class VoiceDetection extends AppCompatActivity {
                  */
 
 
+                 /*
                  emotion_result = "normal";
                  Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
                  intent.putExtra("EmotionResult", emotion_result);
                  startActivity(intent);
+                 */
 
 
              }
@@ -329,7 +331,7 @@ public class VoiceDetection extends AppCompatActivity {
                 emotion_result = emotion_result.substring(11,emotion_result.length()-2);
                 Log.i(TAG, emotion_result);
 
-                emotion_result = "happy";
+                //emotion_result = "happy";
 
                 Intent intent = new Intent(getApplicationContext(), MusicRecommendation.class);
                 intent.putExtra("EmotionResult", emotion_result);
