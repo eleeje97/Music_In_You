@@ -46,6 +46,7 @@ public class ScrollingActivity extends AppCompatActivity {
     private final static String PATH_TO_WEATHER_FONT = "fonts/weather.ttf";
     private ListView lv;
 
+    private Call<String> call;
 
 
 
@@ -56,8 +57,8 @@ public class ScrollingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_scrolling);
-        spinner = (ProgressBar)findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.VISIBLE);
+       // spinner = (ProgressBar)findViewById(R.id.progressBar1);
+       // spinner.setVisibility(View.VISIBLE);
 
         weather_icon=(TextView)findViewById(R.id.weather_icon);
 
@@ -65,8 +66,8 @@ public class ScrollingActivity extends AppCompatActivity {
         weatherFont = Typeface.createFromAsset(getAssets(), PATH_TO_WEATHER_FONT);
         weather_icon.setTypeface(weatherFont);
 
-        weather_report = (TextView) findViewById(R.id.weather_report);
-        place =(TextView)findViewById(R.id.place);
+       // weather_report = (TextView) findViewById(R.id.weather_report);
+       // place =(TextView)findViewById(R.id.place);
 
         GPSTracker gpsTracker = new GPSTracker(this);
 
@@ -80,10 +81,11 @@ public class ScrollingActivity extends AppCompatActivity {
 
             APIManager.getApiService()
                     .getWeatherInfo(stringLatitude,
-                    stringLongitude,
-                    "10",
-                    API_KEY
-                    );
+                            stringLongitude,
+                            "10",
+                            API_KEY
+                            ).enqueue(callback);
+
 
 
             String postalCode = gpsTracker.getPostalCode(this);
@@ -104,7 +106,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
 
-/*
+
 
     private Callback<WeatherData> callback = new Callback<WeatherData>() {
 
@@ -112,6 +114,11 @@ public class ScrollingActivity extends AppCompatActivity {
         @Override
         public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
             //Log.w("code", String.valueOf(response.code()));
+
+            if(response.isSuccessful()){
+                Log.w("retrofit",response.message());
+            }
+
 
             weather_report.setText(response.body().getList().get(0).getWeather().get(0).getDescription());
             place.setText(response.body().getCity().getName());
@@ -169,8 +176,6 @@ public class ScrollingActivity extends AppCompatActivity {
                     weather_icon.setText(R.string.wi_night_snow);
                     break;
 
-
-
             }
             String[]humidity = new String[10];
             String[]rain_description=new String[10];
@@ -194,7 +199,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
             mAdapter = new WeatherAdapter(weathers,weatherFont);
             //mRecyclerView.setAdapter(mAdapter);
-           // Log.w("Weather__Adapter","어댑터 생성");
+            // Log.w("Weather__Adapter","어댑터 생성");
             spinner.setVisibility(View.GONE);
         }
 
@@ -212,6 +217,6 @@ public class ScrollingActivity extends AppCompatActivity {
     };
 
 
-*/
+
 
 }

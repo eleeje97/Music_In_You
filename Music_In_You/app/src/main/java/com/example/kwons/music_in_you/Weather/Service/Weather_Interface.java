@@ -18,7 +18,7 @@ public class Weather_Interface {
         Call<ResponseBody> getWeatherInfo (@Query("lat") String latitude,
                                            @Query("lon") String longitude,
                                            @Query("cnt") String cnt,
-                                           @Query("appid") String appid,
-                                           Callback<WeatherData> cb);
+                                           @Query("appid") String appid
+                                           );
     }
 }

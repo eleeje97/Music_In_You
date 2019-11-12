@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true">
+    android:layout_centerVertical="true"
+    >
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -150,13 +151,16 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20dp" />
 
-            <ImageView
-                android:id="@+id/weather_img"
+            <TextView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:src="@drawable/clear"/>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/country"
+                android:textSize="80dp"
+                android:id="@+id/weather_icon1"/>
+
+
 
         </LinearLayout>
 

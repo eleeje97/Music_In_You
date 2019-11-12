@@ -3,6 +3,10 @@ package com.example.kwons.music_in_you.Weather.Service;
 
 
 
+import android.support.annotation.AttrRes;
+import android.support.annotation.CallSuper;
+import android.support.annotation.RequiresApi;
+
 import com.example.kwons.music_in_you.Weather.Model.WeatherData;
 
 
@@ -16,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -29,12 +34,12 @@ public class APIManager {
 
     public interface Mc2Service {
 
-        @GET("/forecast")
+        @GET("forecast")
         Call<WeatherData> getWeatherInfo (@Query("lat") String latitude,
                                            @Query("lon") String longitude,
                                            @Query("cnt") String cnt,
                                            @Query("appid") String appid
-                                           );
+        );
     }
 
     public static Mc2Service getApiService () {
