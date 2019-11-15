@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,9 @@ import android.widget.Toast;
 import com.example.kwons.music_in_you.Database.DBOpenHelper;
 import com.example.kwons.music_in_you.Emotion_chart.Emotion_BarChart;
 import com.example.kwons.music_in_you.Emotion_chart.Emotion_PieChart;
+import com.example.kwons.music_in_you.Weather.GPSTracker;
+import com.example.kwons.music_in_you.Weather.OpenWeather;
+import com.example.kwons.music_in_you.Weather.Service.APIManager;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -35,6 +40,8 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
 
     Emotion_PieChart emotion_pieChart = (Emotion_PieChart)Emotion_PieChart.emotion_pieChart;
 
+    TextView weather_icon; // 날씨 아이콘
+    Typeface weatherFont; // 날씨 아이콘을 나타내기 위한 폰트
 
     public ArrayList<PieEntry> yValues;
     TextView textView;
@@ -142,6 +149,29 @@ public class TabFragment_home extends Fragment implements OnChartValueSelectedLi
         weather_music_box.setOnClickListener(this);
 
 
+        /** 현재 날씨에 어울리는 곡 추천 **/
+        weather_icon = view.findViewById(R.id.weather_icon1);
+        weatherFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/weather.ttf");
+        weather_icon.setTypeface(weatherFont);
+
+        GPSTracker gpsTracker = new GPSTracker(getContext());
+
+        if (gpsTracker.getIsGPSTrackingEnabled())
+        {
+            String stringLatitude = String.valueOf(gpsTracker.latitude);
+            String stringLongitude = String.valueOf(gpsTracker.longitude);
+
+            OpenWeather.getWeather(stringLatitude, stringLongitude, weather_icon);
+        }
+        else
+        {
+            Log.e("No","Location");
+        }
+
+
+
+
+        // 음성 받는 버튼
         textView = view.findViewById(R.id.mic_msg);
         //textView.setText(name + textView.getText().toString());
 

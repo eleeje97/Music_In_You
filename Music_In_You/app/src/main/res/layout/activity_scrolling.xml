@@ -6,7 +6,7 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".Weather.ScrollingActivity">
 
-
+<!--
 
         <android.support.design.widget.CollapsingToolbarLayout android:id="@+id/toolbar_layout"
             android:fitsSystemWindows="true" android:layout_width="match_parent"
@@ -22,10 +22,15 @@
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
+-->
+
+    <!-- <include layout="@layout/content_scrolling" /> -->
 
 
-    <include layout="@layout/content_scrolling" />
-
-
+    <TextView
+        android:id="@+id/weather_icon"
+        android:layout_width="match_parent"
+        android:layout_height="405dp"
+        android:text="TextView" />
 
 </android.support.design.widget.CoordinatorLayout>

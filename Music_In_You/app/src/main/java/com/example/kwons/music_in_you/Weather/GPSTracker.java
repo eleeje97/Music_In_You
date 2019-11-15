@@ -49,8 +49,8 @@ public class GPSTracker extends Service implements LocationListener {
     boolean isGPSTrackingEnabled = false;
 
     Location location;
-    double latitude;
-    double longitude;
+    public double latitude;
+    public double longitude;
 
     // How many Geocoder should return our GPSTracker
     int geocoderMaxResults = 1;
