@@ -109,6 +109,7 @@ public class Signup2 extends AppCompatActivity {
             Log.i("Retrofit", "music_preference객체 생성");
 
             // Call객체 생성
+            /*
             Call<MemberDTO> call = API_Client.getApi_client_instance()
                                    .getApi_service()
                                    .do_signUp(email,name,password1,password2,birth,musicPreference);
@@ -132,7 +133,7 @@ public class Signup2 extends AppCompatActivity {
                 }
             });
 
-
+    */
 
 
 

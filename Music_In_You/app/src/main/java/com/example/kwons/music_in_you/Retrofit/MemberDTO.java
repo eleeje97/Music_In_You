@@ -21,10 +21,11 @@ public class MemberDTO {
     private String date_of_birth;
 
     // 감정별 음악 취향을 저장하고 있는 객체
-    @SerializedName("music_preference")
-    MusicPreference music_preference;
+    //@SerializedName("music_preference")
+    //MusicPreference music_preference;
 
     // 모든 인자를 매개변수로 가지는 생성자를 만듬
+    /*
     public MemberDTO(String email, String name, String password1, String password2, String date_of_birth, MusicPreference music_preference) {
         this.email = email;
         this.name = name;
@@ -32,7 +33,18 @@ public class MemberDTO {
         this.password2 = password2;
         this.date_of_birth = date_of_birth;
         this.music_preference = music_preference;
+    }*/
+
+    //
+    public MemberDTO(String email, String name, String password1, String password2, String date_of_birth){
+        this.email = email;
+        this.name = name;
+        this.password1 = password1;
+        this.password2 = password2;
+        this.date_of_birth = date_of_birth;
     }
+
+
 
     public String getEmail() {
         return email;
@@ -73,7 +85,7 @@ public class MemberDTO {
     public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
-
+/*
     public MusicPreference getMusic_preference() {
         return music_preference;
     }
@@ -81,10 +93,10 @@ public class MemberDTO {
     public void setMusic_preference(MusicPreference music_preference) {
         this.music_preference = music_preference;
     }
-
+*/
 
     public String toString() {
-        return "[ email : " + email + ", name : " + name + ", password : " + password1 +", birth : " + date_of_birth + ", Music_preference :" + music_preference;
+        return "[ email : " + email + ", name : " + name + ", password : " + password1 +", birth : " + date_of_birth + "";
 
     }
 }

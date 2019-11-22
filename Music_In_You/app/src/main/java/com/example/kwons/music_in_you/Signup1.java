@@ -13,18 +13,25 @@ import android.widget.Toast;
 import com.example.kwons.music_in_you.Retrofit.API_Client;
 import com.example.kwons.music_in_you.Retrofit.API_Interface;
 import com.example.kwons.music_in_you.Retrofit.MemberDTO;
+import com.example.kwons.music_in_you.Retrofit.MemberResult;
 import com.example.kwons.music_in_you.Retrofit.MusicPreference;
+import com.example.kwons.music_in_you.Retrofit.RestError;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.http.HTTP;
 import retrofit2.http.Url;
 
 public class Signup1 extends AppCompatActivity {
@@ -50,6 +57,8 @@ public class Signup1 extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
 
     Button next_btn; // 다음 버튼
+
+    //
 
 
     @Override
@@ -154,30 +163,47 @@ public class Signup1 extends AppCompatActivity {
                 // 모든 항목이 알맞게 입력되었으면 다음 페이지로 넘어가도록
                 if(checkEmail() & checkPassword() & checkPassword_check() & checkName() & checkBirthday()) {
 
-                    MusicPreference music_preference = new MusicPreference();
+                    MemberDTO memberDTO = new MemberDTO(email_et.getText().toString(),name_et.getText().toString(),password_et.getText().toString(),
+                            password_check_et.getText().toString(),birthday_et.getText().toString());
+
                     // Call객체 생성
-                    Call<MemberDTO> call = API_Client.getApi_client_instance()
+                    Call<MemberResult> call = API_Client.getApi_client_instance()
                             .getApi_service()
-                            .do_signUp(email_et.getText().toString(),name_et.getText().toString(),password_et.getText().toString(),
-                                        password_check_et.getText().toString(),birthday_et.getText().toString(),music_preference);
+                            .do_signUp(memberDTO);
 
                     // enqueue()
-                    call.enqueue(new Callback<MemberDTO>() {
+                    call.enqueue(new Callback<MemberResult>() {
                         @Override
-                        public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
-                            Log.d("Retrofit", response.toString());
-                            Log.d("Retrofit Code", String.valueOf(response.code()));
-                            Log.d("Retrofit error", response.raw().toString());
-                            Log.d("Retrofit requestbody", call.request().body().toString());
-                            Log.d("Retrofit errorbody", response.errorBody().toString());
-                            //Log.d("Retrofit responsebody", response.body().toString());
-                            if(response.body() != null){
-                                System.out.println("Retrofit json 결과:" + response.body().toString());
+                        public void onResponse(Call<MemberResult> call, Response<MemberResult> response) {
+
+                            if(response.isSuccessful()){
+                                Log.w("Retrofit","Success");
+                                Log.w("retrofit",response.body().getEmail());
                             }
+                            else {
+                                Log.w("retrofit_msg: ", response.message());
+                                Log.w("retrofit_error: ", response.errorBody().toString());
+
+
+                                // RestError
+                                try {
+                                    RestError restError = (RestError) API_Client.getApi_client_instance().getRetrofit()
+                                            .responseBodyConverter(
+                                            RestError.class, RestError.class.getAnnotations())
+                                            .convert(response.errorBody());
+                                    String errorMessage = restError.list.get(0);
+                                    Log.w("retrofit_error>> ", errorMessage);
+                                }catch(IOException e){
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
                         }
 
                         @Override
-                        public void onFailure(Call<MemberDTO> call, Throwable t) {
+                        public void onFailure(Call<MemberResult> call, Throwable t) {
                             Log.e("Retrofit ERROR", t.getMessage());
                             Log.e("Retrofit ERROR",t.getCause().toString());
                         }
@@ -279,5 +305,9 @@ public class Signup1 extends AppCompatActivity {
     }
 
 
-
+    public class RestError{
+        @SerializedName("music_preference")
+        public ArrayList<String> list = new ArrayList<>();
+    }
 }
+

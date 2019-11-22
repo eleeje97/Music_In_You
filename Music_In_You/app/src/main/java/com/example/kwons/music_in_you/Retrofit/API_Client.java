@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class API_Client {
 
     // Base URL
-    final static String baseUrl = "http://miyu-server-dev.ap-northeast-2.elasticbeanstalk.com/";
+    final static String baseUrl = "http://172.22.15.206:8000/";
 
     // 싱글톤
     private static API_Client api_client_instance =  new API_Client();
@@ -44,6 +45,8 @@ public class API_Client {
 
 
 
+
+
     // API_Interface(서비스) 생성
     API_Interface api_service = retrofit.create(API_Interface.class);
 
@@ -52,5 +55,11 @@ public class API_Client {
     public API_Interface getApi_service(){
         return api_service;
     }
+
+    // getRetrofit()
+    public Retrofit getRetrofit(){
+        return retrofit;
+    }
+
 
 }
